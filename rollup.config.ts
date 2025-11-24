@@ -13,6 +13,7 @@ export default [
         sourcemap: true,
       },
     ],
+    external: ['date-fns', '@date-fns/tz'],
     plugins: [typescript({ outDir: './dist/cjs' })],
   }),
   defineConfig({
@@ -26,6 +27,7 @@ export default [
         sourcemap: true,
       },
     ],
+    external: ['date-fns', '@date-fns/tz'],
     plugins: [typescript({ outDir: './dist/esm' })],
   }),
 ];
