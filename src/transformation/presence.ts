@@ -31,8 +31,10 @@ export function presence<T>(value: T): NonNullable<T> | undefined {
     return value.length > 0 ? value : undefined;
   }
 
-  // @ts-expect-error: Checking for plain object
-  if (typeof value === 'object' && value.__proto__ === Object.prototype) {
+  if (
+    typeof value === 'object' &&
+    Object.getPrototypeOf(value) === Object.prototype
+  ) {
     return Object.keys(value).length > 0 ? value : undefined;
   }
 
