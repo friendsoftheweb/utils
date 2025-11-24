@@ -5,13 +5,6 @@ export default defineConfig({
   input: ['src/index.ts'],
   output: [
     {
-      dir: 'dist/cjs',
-      format: 'cjs',
-      preserveModules: true,
-      exports: 'auto',
-      sourcemap: true,
-    },
-    {
       dir: 'dist/esm',
       format: 'esm',
       preserveModules: true,
@@ -19,6 +12,6 @@ export default defineConfig({
       sourcemap: true,
     },
   ],
-  plugins: [typescript()],
+  plugins: [typescript({ outDir: './dist/esm' })],
   external: ['react', 'react/jsx-runtime', 'rxjs'],
 });
