@@ -2,6 +2,19 @@ import type { CSVCell, CreateCSVStreamOptions } from './types';
 
 import { serializeCSVRow } from './serializeCSVRow';
 
+/**
+ * Creates a ReadableStream that generates CSV data from an async generator of
+ * rows.
+ *
+ * _**NOTE:** Numbers are formatted using the provided numberFormat option or a
+ * default format that does not use grouping and limits maximum fraction digits
+ * to 3._
+ *
+ * @param getRows - A function that returns an async generator yielding arrays
+ * of CSV cells.
+ * @param options - Options for formatting numbers, dates, and error reporting.
+ * @returns A ReadableStream that outputs CSV data as strings.
+ */
 export function createCSVStream(
   getRows: () => AsyncGenerator<CSVCell[], void, CSVCell[]>,
   options: CreateCSVStreamOptions = {},
