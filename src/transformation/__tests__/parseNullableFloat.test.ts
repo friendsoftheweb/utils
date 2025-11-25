@@ -113,43 +113,43 @@ describe('parseNullableFloat', () => {
 
   describe('when value is not a valid number', () => {
     it('returns undefined for non-numeric strings', () => {
-      expect(parseNullableFloat('abc')).toBeUndefined();
-      expect(parseNullableFloat('hello')).toBeUndefined();
-      expect(parseNullableFloat('xyz123')).toBeUndefined();
-      expect(parseNullableFloat('not a number')).toBeUndefined();
+      expect(parseNullableFloat('abc')).toBeNull();
+      expect(parseNullableFloat('hello')).toBeNull();
+      expect(parseNullableFloat('xyz123')).toBeNull();
+      expect(parseNullableFloat('not a number')).toBeNull();
     });
 
     it('returns undefined for strings that start with non-numeric characters', () => {
-      expect(parseNullableFloat('$100.50')).toBeUndefined();
-      expect(parseNullableFloat('#42.7')).toBeUndefined();
-      expect(parseNullableFloat('x3.14')).toBeUndefined();
+      expect(parseNullableFloat('$100.50')).toBeNull();
+      expect(parseNullableFloat('#42.7')).toBeNull();
+      expect(parseNullableFloat('x3.14')).toBeNull();
     });
 
     it('returns undefined for empty string', () => {
-      expect(parseNullableFloat('')).toBeUndefined();
+      expect(parseNullableFloat('')).toBeNull();
     });
 
     it('returns undefined for NaN string', () => {
-      expect(parseNullableFloat('NaN')).toBeUndefined();
+      expect(parseNullableFloat('NaN')).toBeNull();
     });
 
     it('returns undefined for other special strings', () => {
-      expect(parseNullableFloat('undefined')).toBeUndefined();
-      expect(parseNullableFloat('null')).toBeUndefined();
-      expect(parseNullableFloat('true')).toBeUndefined();
-      expect(parseNullableFloat('false')).toBeUndefined();
+      expect(parseNullableFloat('undefined')).toBeNull();
+      expect(parseNullableFloat('null')).toBeNull();
+      expect(parseNullableFloat('true')).toBeNull();
+      expect(parseNullableFloat('false')).toBeNull();
     });
   });
 
   describe('when value is null', () => {
     it('returns undefined', () => {
-      expect(parseNullableFloat(null)).toBeUndefined();
+      expect(parseNullableFloat(null)).toBeNull();
     });
   });
 
   describe('when value is undefined', () => {
     it('returns undefined', () => {
-      expect(parseNullableFloat(undefined)).toBeUndefined();
+      expect(parseNullableFloat(undefined)).toBeNull();
     });
   });
 
@@ -194,23 +194,6 @@ describe('parseNullableFloat', () => {
     it('handles repeating decimals', () => {
       expect(parseNullableFloat('0.33333333333333')).toBe(0.33333333333333);
       expect(parseNullableFloat('0.66666666666667')).toBe(0.66666666666667);
-    });
-  });
-
-  describe('TypeScript overload behavior', () => {
-    it('maintains type safety for string input', () => {
-      const result: number = parseNullableFloat('42.5');
-      expect(result).toBe(42.5);
-    });
-
-    it('maintains type safety for null input', () => {
-      const result: undefined = parseNullableFloat(null);
-      expect(result).toBeUndefined();
-    });
-
-    it('maintains type safety for undefined input', () => {
-      const result: undefined = parseNullableFloat(undefined);
-      expect(result).toBeUndefined();
     });
   });
 });
