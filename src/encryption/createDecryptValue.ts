@@ -7,7 +7,7 @@ import { KEY_LENGTHS } from './constants';
 /**
  * Create a function that decrypts encrypted payloads using the given algorithm and key.
  *
- * @param algorithm - Cipher algorithm to use (for example `'aes-256-cbc'`)
+ * @param algorithm - Cipher algorithm to use (for example `'aes-256-ctr'`)
  * @param encryptionKey - Key used to initialize the decipher; must match the key used to encrypt the value
  * @returns A function that accepts an `EncryptedValue` and returns the decrypted plaintext string
  */
