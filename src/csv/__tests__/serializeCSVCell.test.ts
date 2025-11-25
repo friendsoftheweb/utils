@@ -28,9 +28,4 @@ describe('serializeCSVCell', () => {
 
     expect(serializeCSVCell(date)).toBe('"January 1, 2024"');
   });
-
-  // it('should serialize objects and arrays as JSON strings', () => {
-  //   expect(serializeCSVCell({ key: 'value' })).toBe('{"key":"value"}');
-  //   expect(serializeCSVCell([1, 2, 3])).toBe('[1,2,3]');
-  // });
 });
