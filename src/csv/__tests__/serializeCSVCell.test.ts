@@ -5,7 +5,7 @@ describe('serializeCSVCell', () => {
     expect(serializeCSVCell('simple')).toBe('simple');
     expect(serializeCSVCell('with,comma')).toBe('"with,comma"');
     expect(serializeCSVCell('with"quote')).toBe('"with""quote"');
-    expect(serializeCSVCell('with\nnewline')).toBe('"with\\nnewline"');
+    expect(serializeCSVCell('with\nnewline')).toBe('"with\nnewline"');
   });
 
   it('should serialize numbers correctly', () => {

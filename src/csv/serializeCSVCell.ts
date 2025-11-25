@@ -20,7 +20,7 @@ export function serializeCSVCell(
     cell = cell.replaceAll(/"+/g, '""');
 
     if (/("|,|\n)/.test(cell)) {
-      cell = `"${cell.replaceAll('\n', '\\n')}"`;
+      cell = `"${cell}"`;
     }
   }
 

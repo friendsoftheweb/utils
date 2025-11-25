@@ -123,8 +123,10 @@ describe('createCSVStream', () => {
 
       expect(lines[0]).toBe('Normal text');
       expect(lines[1]).toBe('\"Text with \"\"quotes\"\"\"');
-      expect(lines[2]).toBe('\"Text\\nwith\\nnewlines\"');
-      expect(lines[3]).toBe('\"Text, with, commas\"');
+      expect(lines[2]).toBe('\"Text');
+      expect(lines[3]).toBe('with');
+      expect(lines[4]).toBe('newlines\"');
+      expect(lines[5]).toBe('\"Text, with, commas\"');
     });
 
     xit('handles dates with custom format', async () => {
