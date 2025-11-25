@@ -44,12 +44,12 @@ describe('serializeCSVCell', () => {
 
     expect(
       serializeCSVCell(1234.5678, { numberFormat: customNumberFormat }),
-    ).toBe('1.234,57');
+    ).toBe('"1.234,57"');
 
     const date = new Date('2024-01-01T12:00:00Z');
 
     expect(serializeCSVCell(date, { dateFormat: customDateFormat })).toBe(
-      '"01.01.24"',
+      '01.01.24',
     );
   });
 });
