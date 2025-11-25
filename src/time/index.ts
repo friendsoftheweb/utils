@@ -4,7 +4,7 @@
  * @param durationInSeconds - The duration in seconds.
  * @returns The duration in milliseconds.
  */
-export function seconds(durationInSeconds: number) {
+export function seconds(durationInSeconds: number): number {
   return durationInSeconds * 1000;
 }
 
@@ -14,7 +14,7 @@ export function seconds(durationInSeconds: number) {
  * @param durationInMinutes - The duration in minutes.
  * @returns The duration in milliseconds.
  */
-export function minutes(durationInMinutes: number) {
+export function minutes(durationInMinutes: number): number {
   return durationInMinutes * seconds(60);
 }
 
@@ -24,7 +24,7 @@ export function minutes(durationInMinutes: number) {
  * @param durationInHours - The duration in hours.
  * @returns The duration in milliseconds.
  */
-export function hours(durationInHours: number) {
+export function hours(durationInHours: number): number {
   return durationInHours * minutes(60);
 }
 
@@ -34,6 +34,6 @@ export function hours(durationInHours: number) {
  * @param durationInDays - The duration in days.
  * @returns The duration in milliseconds.
  */
-export function days(durationInDays: number) {
+export function days(durationInDays: number): number {
   return durationInDays * hours(24);
 }
