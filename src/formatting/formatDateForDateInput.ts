@@ -9,10 +9,10 @@ import { parseNullableDate } from '../transformation/parseNullableDate';
  * Format a date or date string for use in a "date" input.
  */
 export const formatDateForDateInput = (
-  value: TZDate | Date | string | null | undefined,
   timeZone: TimeZone,
+  value: TZDate | Date | string | null | undefined,
 ) => {
-  const parsedValue = parseNullableDate(value, timeZone);
+  const parsedValue = parseNullableDate(timeZone, value);
 
   if (parsedValue == null) {
     return '';

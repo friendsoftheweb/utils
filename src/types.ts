@@ -6,7 +6,7 @@ export type TimeZone =
   | 'Europe/Madrid'
   | 'UTC'
   | Omit<
-      string,
+      `America/${string}` | `Europe/${string}` | `Asia/${string}`,
       | 'America/Chicago'
       | 'America/Los_Angeles'
       | 'America/New_York'
