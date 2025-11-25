@@ -1,6 +1,8 @@
 import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'rollup';
 
+const external = ['node:crypto', 'date-fns', '@date-fns/tz', 'lodash-es'];
+
 export default [
   defineConfig({
     input: ['src/index.ts'],
@@ -13,7 +15,7 @@ export default [
         sourcemap: true,
       },
     ],
-    external: ['date-fns', '@date-fns/tz'],
+    external,
     plugins: [typescript({ outDir: './dist/cjs' })],
   }),
   defineConfig({
@@ -27,7 +29,7 @@ export default [
         sourcemap: true,
       },
     ],
-    external: ['date-fns', '@date-fns/tz'],
+    external,
     plugins: [typescript({ outDir: './dist/esm' })],
   }),
 ];
