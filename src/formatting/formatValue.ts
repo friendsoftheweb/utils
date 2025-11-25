@@ -26,7 +26,7 @@ interface Options {
   locales?: Intl.LocalesArgument;
   abbreviate?: boolean;
   unit?: string | null;
-  significantFigures?: number;
+  maximumFractionDigits?: number;
 }
 
 export function formatValue(value: number, options?: Options): string;
@@ -41,7 +41,7 @@ export function formatValue(value: null | number, options: Options = {}) {
     locales = 'en-US',
     abbreviate = false,
     unit,
-    significantFigures = 1,
+    maximumFractionDigits = 1,
   } = options;
 
   const integerFormat = new Intl.NumberFormat(locales, {
@@ -49,7 +49,7 @@ export function formatValue(value: null | number, options: Options = {}) {
   });
 
   const decimalFormat = new Intl.NumberFormat(locales, {
-    maximumFractionDigits: significantFigures,
+    maximumFractionDigits,
   });
 
   if (typeof value === 'number') {

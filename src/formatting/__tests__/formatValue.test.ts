@@ -9,7 +9,7 @@ describe('formatValue', () => {
     it('returns null for null input with options', () => {
       expect(formatValue(null, { abbreviate: true })).toBeNull();
       expect(formatValue(null, { unit: 'px' })).toBeNull();
-      expect(formatValue(null, { significantFigures: 2 })).toBeNull();
+      expect(formatValue(null, { maximumFractionDigits: 2 })).toBeNull();
     });
   });
 
@@ -98,38 +98,42 @@ describe('formatValue', () => {
 
     it('respects significant figures with abbreviation', () => {
       expect(
-        formatValue(1234000, { abbreviate: true, significantFigures: 2 }),
+        formatValue(1234000, { abbreviate: true, maximumFractionDigits: 2 }),
       ).toBe('1.23M');
       expect(
-        formatValue(1567000, { abbreviate: true, significantFigures: 3 }),
+        formatValue(1567000, { abbreviate: true, maximumFractionDigits: 3 }),
       ).toBe('1.567M');
       expect(
-        formatValue(1500000, { abbreviate: true, significantFigures: 0 }),
+        formatValue(1500000, { abbreviate: true, maximumFractionDigits: 0 }),
       ).toBe('2M'); // Rounds to 2
     });
   });
 
   describe('significant figures option', () => {
     it('formats with 0 significant figures (integers only)', () => {
-      expect(formatValue(1.5, { significantFigures: 0 })).toBe('2');
-      expect(formatValue(3.14159, { significantFigures: 0 })).toBe('3');
-      expect(formatValue(1000.75, { significantFigures: 0 })).toBe('1,001');
+      expect(formatValue(1.5, { maximumFractionDigits: 0 })).toBe('2');
+      expect(formatValue(3.14159, { maximumFractionDigits: 0 })).toBe('3');
+      expect(formatValue(1000.75, { maximumFractionDigits: 0 })).toBe('1,001');
     });
 
     it('formats with 2 significant figures', () => {
-      expect(formatValue(1.23456, { significantFigures: 2 })).toBe('1.23');
-      expect(formatValue(3.14159, { significantFigures: 2 })).toBe('3.14');
-      expect(formatValue(1000.789, { significantFigures: 2 })).toBe('1,000.79');
+      expect(formatValue(1.23456, { maximumFractionDigits: 2 })).toBe('1.23');
+      expect(formatValue(3.14159, { maximumFractionDigits: 2 })).toBe('3.14');
+      expect(formatValue(1000.789, { maximumFractionDigits: 2 })).toBe(
+        '1,000.79',
+      );
     });
 
     it('formats with 3 significant figures', () => {
-      expect(formatValue(1.23456, { significantFigures: 3 })).toBe('1.235');
-      expect(formatValue(3.14159, { significantFigures: 3 })).toBe('3.142');
+      expect(formatValue(1.23456, { maximumFractionDigits: 3 })).toBe('1.235');
+      expect(formatValue(3.14159, { maximumFractionDigits: 3 })).toBe('3.142');
     });
 
     it('handles large significant figures values', () => {
-      expect(formatValue(1.23456, { significantFigures: 5 })).toBe('1.23456');
-      expect(formatValue(3.14, { significantFigures: 5 })).toBe('3.14');
+      expect(formatValue(1.23456, { maximumFractionDigits: 5 })).toBe(
+        '1.23456',
+      );
+      expect(formatValue(3.14, { maximumFractionDigits: 5 })).toBe('3.14');
     });
   });
 
@@ -168,10 +172,10 @@ describe('formatValue', () => {
     });
 
     it('combines unit with significant figures', () => {
-      expect(formatValue(1.23456, { unit: 'kg', significantFigures: 2 })).toBe(
-        '1.23 kg',
-      );
-      expect(formatValue(50.789, { unit: '%', significantFigures: 2 })).toBe(
+      expect(
+        formatValue(1.23456, { unit: 'kg', maximumFractionDigits: 2 }),
+      ).toBe('1.23 kg');
+      expect(formatValue(50.789, { unit: '%', maximumFractionDigits: 2 })).toBe(
         '51%',
       ); // Still uses integer for %
     });
@@ -210,7 +214,7 @@ describe('formatValue', () => {
         formatValue(1234567, {
           abbreviate: true,
           unit: 'users',
-          significantFigures: 2,
+          maximumFractionDigits: 2,
         }),
       ).toBe('1.23M users');
     });
@@ -231,7 +235,7 @@ describe('formatValue', () => {
           locales: 'fr-FR',
           abbreviate: true,
           unit: 'bytes',
-          significantFigures: 3,
+          maximumFractionDigits: 3,
         }),
       ).toBe('3,457M bytes');
     });
@@ -241,7 +245,7 @@ describe('formatValue', () => {
         formatValue(85.678, {
           locales: 'de-DE',
           unit: '%',
-          significantFigures: 2, // Should be ignored for %
+          maximumFractionDigits: 2, // Should be ignored for %
         }),
       ).toBe('86%'); // Still uses integer format
     });
@@ -258,7 +262,7 @@ describe('formatValue', () => {
     it('handles very small positive numbers', () => {
       expect(formatValue(0.001)).toBe('0');
       expect(formatValue(0.1)).toBe('0.1');
-      expect(formatValue(0.01, { significantFigures: 2 })).toBe('0.01');
+      expect(formatValue(0.01, { maximumFractionDigits: 2 })).toBe('0.01');
     });
 
     it('handles very large numbers', () => {
@@ -315,7 +319,7 @@ describe('formatValue', () => {
   describe('real-world usage examples', () => {
     it('formats financial values', () => {
       expect(
-        formatValue(1234567.89, { unit: 'USD', significantFigures: 2 }),
+        formatValue(1234567.89, { unit: 'USD', maximumFractionDigits: 2 }),
       ).toBe('1,234,567.89 USD');
       expect(formatValue(2500000, { abbreviate: true, unit: 'USD' })).toBe(
         '2.5M USD',
@@ -345,11 +349,11 @@ describe('formatValue', () => {
     });
 
     it('formats measurements and quantities', () => {
-      expect(formatValue(1.75, { unit: 'meters', significantFigures: 2 })).toBe(
-        '1.75 meters',
-      );
+      expect(
+        formatValue(1.75, { unit: 'meters', maximumFractionDigits: 2 }),
+      ).toBe('1.75 meters');
       expect(formatValue(2500, { unit: 'ml' })).toBe('2,500 ml');
-      expect(formatValue(98.6, { unit: '°F', significantFigures: 1 })).toBe(
+      expect(formatValue(98.6, { unit: '°F', maximumFractionDigits: 1 })).toBe(
         '98.6 °F',
       );
     });
