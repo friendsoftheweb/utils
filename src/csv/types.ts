@@ -1,4 +1,5 @@
 export interface CreateCSVStreamOptions {
+  numberFormat?: Intl.NumberFormat;
   dateFormat?: Intl.DateTimeFormat;
   reportError?(error: unknown): void;
 }
