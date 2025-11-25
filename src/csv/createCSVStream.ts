@@ -3,9 +3,9 @@ import type { CSVCell, CreateCSVStreamOptions } from './types';
 import { serializeCSVRow } from './serializeCSVRow';
 
 export function createCSVStream(
-  getRows: () => AsyncGenerator<CSVCell[]>,
+  getRows: () => AsyncGenerator<CSVCell[], void, CSVCell[]>,
   options: CreateCSVStreamOptions = {},
-) {
+): ReadableStream<string> {
   const rowGenerator = getRows();
 
   const {
@@ -14,7 +14,7 @@ export function createCSVStream(
     },
   } = options;
 
-  return new ReadableStream({
+  return new ReadableStream<string>({
     async pull(controller) {
       try {
         const { value, done } = await rowGenerator.next();
