@@ -27,6 +27,8 @@ export function deepTransformKeys(
     return (value: JSONValue) => deepTransformKeys(transformKey, value);
   }
 
+  const transformValue = deepTransformKeys(transformKey);
+
   if (
     value == null ||
     typeof value === 'string' ||
@@ -37,13 +39,13 @@ export function deepTransformKeys(
   }
 
   if (Array.isArray(value)) {
-    return value.map(deepTransformKeys(transformKey)) as JSONValue;
+    return value.map(transformValue) as JSONValue;
   }
 
   return Object.fromEntries(
     Object.entries(value).map(([key, value]) => [
       transformKey(key),
-      deepTransformKeys(transformKey)(value),
+      transformValue(value),
     ]),
   );
 }
