@@ -52,7 +52,7 @@ export function serializeCSVCell(
 }
 
 function escapeCSVCell(cell: string): string {
-  let escaped = cell.replaceAll(/"+/g, '""');
+  let escaped = cell.replaceAll('"', '""');
 
   if (/("|,|\n)/.test(escaped)) {
     escaped = `"${escaped}"`;
