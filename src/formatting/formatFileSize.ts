@@ -11,8 +11,8 @@ const FILE_SIZE_FORMAT = new Intl.NumberFormat('en-US', {
  * @throws Error if `size` is negative.
  */
 export function formatFileSize(size: number): string {
-  if (size < 0) {
-    throw new Error('File size cannot be negative');
+  if (!Number.isFinite(size) || size < 0) {
+    throw new Error('File size must be a finite, non-negative number');
   }
 
   if (size < 1_000) {
@@ -20,12 +20,12 @@ export function formatFileSize(size: number): string {
   }
 
   if (size < 1_000_000) {
-    return `${FILE_SIZE_FORMAT.format(size / 1_000)} Kb`;
+    return `${FILE_SIZE_FORMAT.format(size / 1_000)} KB`;
   }
 
   if (size < 1_000_000_000) {
-    return `${FILE_SIZE_FORMAT.format(size / 1_000_000)} Mb`;
+    return `${FILE_SIZE_FORMAT.format(size / 1_000_000)} MB`;
   }
 
-  return `${FILE_SIZE_FORMAT.format(size / 1_000_000_000)} Gb`;
+  return `${FILE_SIZE_FORMAT.format(size / 1_000_000_000)} GB`;
 }

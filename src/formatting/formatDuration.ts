@@ -7,6 +7,10 @@ import { padStart } from 'lodash-es';
  * @returns The formatted duration string.
  */
 export function formatDuration(durationInSeconds: number) {
+  if (!Number.isFinite(durationInSeconds) || durationInSeconds < 0) {
+    throw new Error('Duration must be a finite, non-negative number');
+  }
+
   const seconds = Math.floor(durationInSeconds) % 60;
   const minutes = Math.floor(durationInSeconds / 60) % 60;
   const hours = Math.floor(durationInSeconds / (60 * 60));

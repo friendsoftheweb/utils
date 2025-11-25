@@ -201,4 +201,24 @@ describe('formatDuration', () => {
       expect(formatDuration(14725)).toBe('04:05:25'); // 14725 / 3600 = 4 hours
     });
   });
+
+  describe('invalid inputs', () => {
+    it('handles negative numbers', () => {
+      expect(() => formatDuration(-5)).toThrow(
+        'Duration must be a finite, non-negative number',
+      );
+    });
+
+    it('handles NaN', () => {
+      expect(() => formatDuration(NaN)).toThrow(
+        'Duration must be a finite, non-negative number',
+      );
+    });
+
+    it('handles Infinity', () => {
+      expect(() => formatDuration(Infinity)).toThrow(
+        'Duration must be a finite, non-negative number',
+      );
+    });
+  });
 });
