@@ -1,7 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'rollup';
 
-const external = ['node:crypto', 'date-fns', '@date-fns/tz', 'lodash-es'];
+const external = ['node:crypto', 'date-fns', '@date-fns/tz'];
 
 export default [
   defineConfig({

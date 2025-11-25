@@ -1,5 +1,3 @@
-import { padStart } from 'lodash-es';
-
 /**
  * Format a duration in seconds to a string in the format "HH:MM:SS" or "MM:SS".
  *
@@ -18,14 +16,14 @@ export function formatDuration(durationInSeconds: number) {
 
   if (hours > 0) {
     return [
-      padStart(hours.toString(), 2, '0'),
-      padStart(minutes.toString(), 2, '0'),
-      padStart(seconds.toString(), 2, '0'),
+      hours.toString().padStart(2, '0'),
+      minutes.toString().padStart(2, '0'),
+      seconds.toString().padStart(2, '0'),
     ].join(':');
   }
 
   return [
-    padStart(minutes.toString(), 2, '0'),
-    padStart(seconds.toString(), 2, '0'),
+    minutes.toString().padStart(2, '0'),
+    seconds.toString().padStart(2, '0'),
   ].join(':');
 }
