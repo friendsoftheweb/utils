@@ -8,7 +8,7 @@ const FILE_SIZE_FORMAT = new Intl.NumberFormat('en-US', {
  *
  * @param size - File size in bytes.
  * @returns The formatted size with a unit suffix ("B", "Kb", "Mb", or "Gb"); numeric value is formatted with up to two fraction digits.
- * @throws Error if `size` is negative.
+ * @throws Error if `size` is negative or not finite.
  */
 export function formatFileSize(size: number): string {
   if (!Number.isFinite(size) || size < 0) {

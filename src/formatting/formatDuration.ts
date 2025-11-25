@@ -5,6 +5,7 @@ import { padStart } from 'lodash-es';
  *
  * @param durationInSeconds - The duration in seconds.
  * @returns The formatted duration string.
+ * @throws Error if `durationInSeconds` is negative or not finite.
  */
 export function formatDuration(durationInSeconds: number) {
   if (!Number.isFinite(durationInSeconds) || durationInSeconds < 0) {
