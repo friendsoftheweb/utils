@@ -33,7 +33,11 @@ export function serializeCSVCell(
   const dateFormat = options.dateFormat ?? DEFAULT_DATE_FORMAT;
 
   if (typeof cell === 'number') {
-    return escapeCSVCell(numberFormat.format(cell));
+    if (Number.isNaN(cell)) {
+      return '';
+    } else {
+      return escapeCSVCell(numberFormat.format(cell));
+    }
   }
 
   if (typeof cell === 'string') {

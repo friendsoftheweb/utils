@@ -52,4 +52,12 @@ describe('serializeCSVCell', () => {
       '01.01.24',
     );
   });
+
+  it('should handle edge case numeric values', () => {
+    expect(serializeCSVCell(NaN)).toBe('');
+    expect(serializeCSVCell(Infinity)).toBe('∞'); // or whatever the expected output is
+    expect(serializeCSVCell(-Infinity)).toBe('-∞'); // or whatever the expected output is
+    expect(serializeCSVCell(1e21)).toMatch(/^\d+$/); // verify no scientific notation
+    expect(serializeCSVCell(1e-10)).toBe('0'); // verify very small numbers
+  });
 });
