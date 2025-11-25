@@ -2,6 +2,8 @@ import { createDecipheriv } from 'node:crypto';
 
 import type { Algorithm, EncryptedValue } from './types';
 
+import { KEY_LENGTHS } from './constants';
+
 /**
  * Create a function that decrypts encrypted payloads using the given algorithm and key.
  *
@@ -13,6 +15,16 @@ export function createDecryptValue(
   algorithm: Algorithm,
   encryptionKey: string,
 ) {
+  if (KEY_LENGTHS[algorithm] == null) {
+    throw new Error(`Unsupported algorithm: ${algorithm}`);
+  }
+
+  if (Buffer.byteLength(encryptionKey, 'utf8') !== KEY_LENGTHS[algorithm]) {
+    throw new Error(
+      `Invalid encryption key length for ${algorithm}. Expected length: ${KEY_LENGTHS[algorithm]} bytes.`,
+    );
+  }
+
   return (encryptedValue: EncryptedValue): string => {
     const decipher = createDecipheriv(
       algorithm,

@@ -2,9 +2,7 @@ import { randomBytes, createCipheriv } from 'node:crypto';
 
 import type { Algorithm, EncryptedValue } from './types';
 
-const KEY_LENGTHS: Record<Algorithm, number> = {
-  'aes-256-ctr': 32,
-};
+import { KEY_LENGTHS } from './constants';
 
 /**
  * Create a reusable encryptor function for the given algorithm and key.
@@ -23,9 +21,9 @@ export function createEncryptValue(
     throw new Error(`Unsupported algorithm: ${algorithm}`);
   }
 
-  if (encryptionKey.length !== KEY_LENGTHS[algorithm]) {
+  if (Buffer.byteLength(encryptionKey, 'utf8') !== KEY_LENGTHS[algorithm]) {
     throw new Error(
-      `Invalid encryption key length for ${algorithm}. Expected length: ${KEY_LENGTHS[algorithm]} characters.`,
+      `Invalid encryption key length for ${algorithm}. Expected length: ${KEY_LENGTHS[algorithm]} bytes.`,
     );
   }
 
