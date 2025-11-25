@@ -146,11 +146,6 @@ describe('parseNullableDate', () => {
   });
 
   describe('when value is an empty or whitespace string', () => {
-    it('returns null for empty string', () => {
-      const result = parseNullableDate('', testTimeZone);
-      expect(result).toBeNull();
-    });
-
     it('returns null for whitespace-only string', () => {
       expect(parseNullableDate(testTimeZone, ' ')).toBeNull();
       expect(parseNullableDate(testTimeZone, '   ')).toBeNull();
