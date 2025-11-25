@@ -110,6 +110,12 @@ export function parseNullableDate(
   return null;
 }
 
+export function createParseNullableDate(
+  timeZone: TimeZone,
+): (value: TZDate | Date | string | null | undefined) => TZDate | null {
+  return (value) => parseNullableDate(timeZone, value);
+}
+
 function getMaxDaysInMonth(year: number, month: number): number {
   if (month === 1) {
     // February

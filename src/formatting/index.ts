@@ -1,4 +1,4 @@
-export { formatDateForDateInput } from './formatDateForDateInput';
-export { formatDateForDateTimeInput } from './formatDateForDateTimeInput';
-export { formatDuration } from './formatDuration';
-export { formatFileSize } from './formatFileSize';
+export * from './formatDateForDateInput';
+export * from './formatDateForDateTimeInput';
+export * from './formatDuration';
+export * from './formatFileSize';

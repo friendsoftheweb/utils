@@ -1,3 +1,3 @@
-export { getEnvBoolean } from './getEnvBoolean';
-export { getEnvNumber } from './getEnvNumber';
-export { getEnvString } from './getEnvString';
+export * from './getEnvBoolean';
+export * from './getEnvNumber';
+export * from './getEnvString';
