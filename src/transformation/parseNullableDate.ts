@@ -27,8 +27,8 @@ export function parseNullableDate(
  * Parse a date, date-time string, Date, or TZDate into a TZDate, returning
  * `null` for `null`/`undefined` or invalid values.
  *
- * @param value - The date to parse
  * @param timeZone - The time zone to use when parsing date strings or Date objects
+ * @param value - The date to parse
  * @returns The parsed date, or `null`
  */
 export function parseNullableDate(
