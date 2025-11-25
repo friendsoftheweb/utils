@@ -63,38 +63,38 @@ describe('parseNullableInt', () => {
 
   describe('when value is not a valid number', () => {
     it('returns NaN for non-numeric strings', () => {
-      expect(parseNullableInt('abc')).toBeUndefined();
-      expect(parseNullableInt('hello')).toBeUndefined();
-      expect(parseNullableInt('xyz123')).toBeUndefined();
-      expect(parseNullableInt('not a number')).toBeUndefined();
+      expect(parseNullableInt('abc')).toBeNull();
+      expect(parseNullableInt('hello')).toBeNull();
+      expect(parseNullableInt('xyz123')).toBeNull();
+      expect(parseNullableInt('not a number')).toBeNull();
     });
 
     it('returns NaN for strings that start with non-numeric characters', () => {
-      expect(parseNullableInt('$100')).toBeUndefined();
-      expect(parseNullableInt('.42')).toBeUndefined();
+      expect(parseNullableInt('$100')).toBeNull();
+      expect(parseNullableInt('.42')).toBeNull();
     });
 
     it('returns NaN for empty string', () => {
-      expect(parseNullableInt('')).toBeUndefined();
+      expect(parseNullableInt('')).toBeNull();
     });
 
     it('returns NaN for whitespace-only strings', () => {
-      expect(parseNullableInt(' ')).toBeUndefined();
-      expect(parseNullableInt('\t')).toBeUndefined();
-      expect(parseNullableInt('\n')).toBeUndefined();
-      expect(parseNullableInt('   ')).toBeUndefined();
+      expect(parseNullableInt(' ')).toBeNull();
+      expect(parseNullableInt('\t')).toBeNull();
+      expect(parseNullableInt('\n')).toBeNull();
+      expect(parseNullableInt('   ')).toBeNull();
     });
   });
 
   describe('when value is null', () => {
     it('returns undefined', () => {
-      expect(parseNullableInt(null)).toBeUndefined();
+      expect(parseNullableInt(null)).toBeNull();
     });
   });
 
   describe('when value is undefined', () => {
     it('returns undefined', () => {
-      expect(parseNullableInt(undefined)).toBeUndefined();
+      expect(parseNullableInt(undefined)).toBeNull();
     });
   });
 
@@ -125,31 +125,14 @@ describe('parseNullableInt', () => {
     });
 
     it('handles infinity-like strings', () => {
-      expect(parseNullableInt('Infinity')).toBeUndefined();
-      expect(parseNullableInt('-Infinity')).toBeUndefined();
+      expect(parseNullableInt('Infinity')).toBeNull();
+      expect(parseNullableInt('-Infinity')).toBeNull();
     });
 
     it('handles special number strings', () => {
-      expect(parseNullableInt('NaN')).toBeUndefined();
-      expect(parseNullableInt('undefined')).toBeUndefined();
-      expect(parseNullableInt('null')).toBeUndefined();
-    });
-  });
-
-  describe('TypeScript overload behavior', () => {
-    it('maintains type safety for string input', () => {
-      const result: number = parseNullableInt('42');
-      expect(result).toBe(42);
-    });
-
-    it('maintains type safety for null input', () => {
-      const result: undefined = parseNullableInt(null);
-      expect(result).toBeUndefined();
-    });
-
-    it('maintains type safety for undefined input', () => {
-      const result: undefined = parseNullableInt(undefined);
-      expect(result).toBeUndefined();
+      expect(parseNullableInt('NaN')).toBeNull();
+      expect(parseNullableInt('undefined')).toBeNull();
+      expect(parseNullableInt('null')).toBeNull();
     });
   });
 });

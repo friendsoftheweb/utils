@@ -1,4 +1,5 @@
-import { isPresentNumber, isPresentString } from '../validation';
+import { isPresentNumber } from '../validation/isPresentNumber';
+import { isPresentString } from '../validation/isPresentString';
 
 /**
  * Return the input when it is considered "present", otherwise `undefined`.

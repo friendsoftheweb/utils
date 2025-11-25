@@ -1,3 +1,3 @@
-export { isPresent } from './isPresent';
-export { isPresentNumber } from './isPresentNumber';
-export { isPresentString } from './isPresentString';
+export * from './isPresent';
+export * from './isPresentNumber';
+export * from './isPresentString';

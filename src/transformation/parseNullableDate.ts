@@ -4,28 +4,36 @@ import type { TimeZone } from '../types';
 
 import { isPresentString } from '../validation/isPresentString';
 
-export function parseNullableDate(value: TZDate, timeZone: TimeZone): TZDate;
+export function parseNullableDate(timeZone: TimeZone, value: TZDate): TZDate;
 
-export function parseNullableDate(value: Date, timeZone: TimeZone): TZDate;
+export function parseNullableDate(timeZone: TimeZone, value: Date): TZDate;
 
 export function parseNullableDate(
-  value: string,
   timeZone: TimeZone,
+  value: string,
 ): TZDate | null;
 
 export function parseNullableDate(
-  value: null | undefined,
   timeZone: TimeZone,
+  value: null | undefined,
 ): null;
 
 export function parseNullableDate(
-  value: TZDate | Date | string | null | undefined,
   timeZone: TimeZone,
+  value: TZDate | Date | string | null | undefined,
 ): TZDate | null;
 
+/**
+ * Parse a date, date-time string, Date, or TZDate into a TZDate, returning
+ * `null` for `null`/`undefined` or invalid values.
+ *
+ * @param timeZone - The time zone to use when parsing date strings or Date objects
+ * @param value - The date to parse
+ * @returns The parsed date, or `null`
+ */
 export function parseNullableDate(
-  value: TZDate | Date | string | null | undefined,
   timeZone: TimeZone,
+  value: TZDate | Date | string | null | undefined,
 ): TZDate | null {
   if (value instanceof TZDate) {
     return value;
@@ -100,6 +108,12 @@ export function parseNullableDate(
   }
 
   return null;
+}
+
+export function createParseNullableDate(
+  timeZone: TimeZone,
+): (value: TZDate | Date | string | null | undefined) => TZDate | null {
+  return (value) => parseNullableDate(timeZone, value);
 }
 
 function getMaxDaysInMonth(year: number, month: number): number {

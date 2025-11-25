@@ -1,21 +1,20 @@
-export function parseNullableInt(value: string): number;
-
-export function parseNullableInt(value: null | undefined): undefined;
-
+/**
+ * Parse a string into an integer, returning `null` for `null`/`undefined`
+ * or invalid values.
+ *
+ * @param value - The string to parse
+ * @returns The parsed integer, or `null`
+ */
 export function parseNullableInt(
   value: string | null | undefined,
-): number | undefined;
-
-export function parseNullableInt(
-  value: string | null | undefined,
-): number | undefined {
+): number | null {
   if (value == null) {
-    return undefined;
+    return null;
   } else {
     const result = parseInt(value, 10);
 
     if (Number.isNaN(result)) {
-      return undefined;
+      return null;
     }
 
     return result;

@@ -1,21 +1,20 @@
-export function parseNullableFloat(value: string): number;
-
-export function parseNullableFloat(value: null | undefined): undefined;
-
+/**
+ * Parse a string into a float, returning `null` for `null`/`undefined`
+ * or invalid values.
+ *
+ * @param value - The string to parse
+ * @returns The parsed float, or `null`
+ */
 export function parseNullableFloat(
   value: string | null | undefined,
-): number | undefined;
-
-export function parseNullableFloat(
-  value: string | null | undefined,
-): number | undefined {
+): number | null {
   if (value == null) {
-    return undefined;
+    return null;
   } else {
     const result = parseFloat(value);
 
     if (Number.isNaN(result)) {
-      return undefined;
+      return null;
     }
 
     return result;
