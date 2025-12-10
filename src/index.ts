@@ -4,6 +4,7 @@ export * from './encryption';
 export * from './environment';
 export * from './formatting';
 export * from './http';
+export * from './language';
 export * from './time';
 export * from './transformation';
 export * from './types';

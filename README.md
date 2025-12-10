@@ -286,6 +286,63 @@ buildContentDispositionHeader('file"with;bad\\chars.txt');
 // "attachment; filename="file_with_bad_chars.txt"; filename*=UTF-8''file%22with%3Bbad%5Cchars.txt"
 ```
 
+## Language
+
+### slugify
+
+Creates URL-friendly slugs from text by removing diacritics, normalizing special
+characters, and converting to lowercase with hyphens.
+
+```typescript
+import { slugify } from '@friendsoftheweb/utils';
+
+// Basic usage
+slugify('Hello World'); // "hello-world"
+slugify('My Blog Post Title'); // "my-blog-post-title"
+
+// Handles diacritics and international characters
+slugify('Café résumé naïve'); // "cafe-resume-naive"
+slugify('München Zürich'); // "munchen-zurich"
+slugify('São Paulo'); // "sao-paulo"
+
+// Special character replacement
+slugify('Cats & Dogs'); // "cats-and-dogs"
+slugify('C++ Programming'); // "c-plus-plus-programming"
+slugify('50% Off Sale'); // "50-percent-off-sale"
+slugify('API v2.0'); // "api-v2-dot-0"
+slugify('2 + 2 = 4'); // "2-plus-2-equals-4"
+slugify('Price/Quality Ratio'); // "price-slash-quality-ratio"
+```
+
+### removeDiacritics
+
+Removes diacritical marks (accents) from Latin characters while preserving the
+base letters.
+
+```typescript
+import { removeDiacritics } from '@friendsoftheweb/utils';
+
+// Basic usage
+removeDiacritics('café'); // "cafe"
+removeDiacritics('résumé'); // "resume"
+removeDiacritics('naïve'); // "naive"
+
+// Handles various languages
+removeDiacritics('français'); // "francais"
+removeDiacritics('Mädchen'); // "Madchen"
+removeDiacritics('niño'); // "nino"
+removeDiacritics('São Paulo'); // "Sao Paulo"
+
+// Preserves case and structure
+removeDiacritics('José María García'); // "Jose Maria Garcia"
+removeDiacritics('CAFÉ RÉSUMÉ'); // "CAFE RESUME"
+removeDiacritics('The café serves crêpes'); // "The cafe serves crepes"
+
+// Special character handling
+removeDiacritics('Straße'); // "Strasse" (German ß becomes ss)
+removeDiacritics('Æon'); // "AEon" (Æ becomes AE)
+```
+
 ## Time
 
 ### seconds
