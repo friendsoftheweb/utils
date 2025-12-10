@@ -4,23 +4,33 @@ import type { TimeZone } from '../types';
 
 import { isPresentString } from '../validation/isPresentString';
 
-export function parseNullableDate(timeZone: TimeZone, value: TZDate): TZDate;
-
-export function parseNullableDate(timeZone: TimeZone, value: Date): TZDate;
+interface ParseNullableDateOptions {
+  timeZone: TimeZone;
+}
 
 export function parseNullableDate(
-  timeZone: TimeZone,
-  value: string,
+  date: TZDate,
+  options: ParseNullableDateOptions,
+): TZDate;
+
+export function parseNullableDate(
+  date: Date,
+  options: ParseNullableDateOptions,
+): TZDate;
+
+export function parseNullableDate(
+  date: string,
+  options: ParseNullableDateOptions,
 ): TZDate | null;
 
 export function parseNullableDate(
-  timeZone: TimeZone,
-  value: null | undefined,
+  date: null | undefined,
+  options: ParseNullableDateOptions,
 ): null;
 
 export function parseNullableDate(
-  timeZone: TimeZone,
-  value: TZDate | Date | string | null | undefined,
+  date: TZDate | Date | string | null | undefined,
+  options: ParseNullableDateOptions,
 ): TZDate | null;
 
 /**
@@ -32,19 +42,21 @@ export function parseNullableDate(
  * @returns The parsed date, or `null`
  */
 export function parseNullableDate(
-  timeZone: TimeZone,
-  value: TZDate | Date | string | null | undefined,
+  date: TZDate | Date | string | null | undefined,
+  options: ParseNullableDateOptions,
 ): TZDate | null {
-  if (value instanceof TZDate) {
-    return value;
+  const { timeZone } = options;
+
+  if (date instanceof TZDate) {
+    return date;
   }
 
-  if (value instanceof Date) {
-    return TZDate.tz(timeZone as string, value);
+  if (date instanceof Date) {
+    return TZDate.tz(options.timeZone as string, date);
   }
 
-  if (isPresentString(value)) {
-    const dateMatches = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (isPresentString(date)) {
+    const dateMatches = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
 
     if (dateMatches?.length === 4) {
       const year = parseInt(dateMatches[1], 10);
@@ -66,7 +78,7 @@ export function parseNullableDate(
       return new TZDate(year, month, day, timeZone as string);
     }
 
-    const dateTimeMatches = value.match(
+    const dateTimeMatches = date.match(
       /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/,
     );
 
@@ -111,9 +123,9 @@ export function parseNullableDate(
 }
 
 export function createParseNullableDate(
-  timeZone: TimeZone,
-): (value: TZDate | Date | string | null | undefined) => TZDate | null {
-  return (value) => parseNullableDate(timeZone, value);
+  options: ParseNullableDateOptions,
+): (date: TZDate | Date | string | null | undefined) => TZDate | null {
+  return (date) => parseNullableDate(date, options);
 }
 
 function getMaxDaysInMonth(year: number, month: number): number {
