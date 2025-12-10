@@ -20,8 +20,10 @@ export function buildContentDispositionHeader(
 }
 
 /**
- * Remove or replace characters not allowed in HTTP headers or filenames quotes,
- * backslashes, newlines, carriage returns, and semicolons
+ * Sanitize a filename for use in HTTP headers by replacing disallowed characters with underscores.
+ *
+ * @param name - The original filename to sanitize.
+ * @returns The filename with double quotes ("), backslashes (\), carriage returns, newlines, and semicolons (;) replaced by `_`.
  */
 function sanitizeFilename(name: string): string {
   return name.replace(/["\\\r\n;]/g, '_');
