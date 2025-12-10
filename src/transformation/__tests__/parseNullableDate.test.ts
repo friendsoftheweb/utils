@@ -9,7 +9,7 @@ describe('parseNullableDate', () => {
   describe('when value is a TZDate', () => {
     it('returns the same TZDate instance', () => {
       const tzDate = new TZDate(2024, 0, 15, testTimeZone);
-      const result = parseNullableDate(testTimeZone, tzDate);
+      const result = parseNullableDate(tzDate, { timeZone: testTimeZone });
 
       expect(result).toBe(tzDate);
       expect(result).toBeInstanceOf(TZDate);
@@ -17,7 +17,7 @@ describe('parseNullableDate', () => {
 
     it('returns the TZDate even when timezone differs', () => {
       const tzDate = new TZDate(2024, 0, 15, utcTimeZone);
-      const result = parseNullableDate(testTimeZone, tzDate);
+      const result = parseNullableDate(tzDate, { timeZone: testTimeZone });
 
       expect(result).toBe(tzDate);
       expect(result).toBeInstanceOf(TZDate);
@@ -27,7 +27,7 @@ describe('parseNullableDate', () => {
   describe('when value is a regular Date', () => {
     it('converts Date to TZDate with specified timezone', () => {
       const date = new Date('2024-01-15T10:30:00Z');
-      const result = parseNullableDate(testTimeZone, date);
+      const result = parseNullableDate(date, { timeZone: testTimeZone });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result).not.toBe(date);
@@ -36,7 +36,7 @@ describe('parseNullableDate', () => {
 
     it('handles Date with UTC timezone', () => {
       const date = new Date('2024-06-15T15:45:30Z');
-      const result = parseNullableDate(utcTimeZone, date);
+      const result = parseNullableDate(date, { timeZone: utcTimeZone });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getTime()).toBe(date.getTime());
@@ -45,7 +45,9 @@ describe('parseNullableDate', () => {
 
   describe('when value is a date string (YYYY-MM-DD)', () => {
     it('parses valid date string correctly', () => {
-      const result = parseNullableDate(testTimeZone, '2024-01-15');
+      const result = parseNullableDate('2024-01-15', {
+        timeZone: testTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2024);
@@ -54,7 +56,9 @@ describe('parseNullableDate', () => {
     });
 
     it('parses date string with leading zeros', () => {
-      const result = parseNullableDate(testTimeZone, '2024-03-05');
+      const result = parseNullableDate('2024-03-05', {
+        timeZone: testTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2024);
@@ -63,7 +67,7 @@ describe('parseNullableDate', () => {
     });
 
     it('parses date string at year boundaries', () => {
-      const result = parseNullableDate(utcTimeZone, '2023-12-31');
+      const result = parseNullableDate('2023-12-31', { timeZone: utcTimeZone });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2023);
@@ -72,25 +76,55 @@ describe('parseNullableDate', () => {
     });
 
     it('returns null for invalid date format', () => {
-      expect(parseNullableDate(testTimeZone, '24-01-15')).toBeNull();
-      expect(parseNullableDate(testTimeZone, '2024/01/15')).toBeNull();
-      expect(parseNullableDate(testTimeZone, 'January 15, 2024')).toBeNull();
-      expect(parseNullableDate(testTimeZone, '2024-1-15')).toBeNull(); // Missing leading zero
-      expect(parseNullableDate(testTimeZone, '2024-01-5')).toBeNull(); // Missing leading zero
+      expect(
+        parseNullableDate('24-01-15', { timeZone: testTimeZone }),
+      ).toBeNull();
+
+      expect(
+        parseNullableDate('2024/01/15', { timeZone: testTimeZone }),
+      ).toBeNull();
+
+      expect(
+        parseNullableDate('January 15, 2024', { timeZone: testTimeZone }),
+      ).toBeNull();
+
+      expect(
+        parseNullableDate('2024-1-15', { timeZone: testTimeZone }),
+      ).toBeNull(); // Missing leading zero
+
+      expect(
+        parseNullableDate('2024-01-5', { timeZone: testTimeZone }),
+      ).toBeNull(); // Missing leading zero
     });
 
     it('returns null for malformed date strings', () => {
-      expect(parseNullableDate(testTimeZone, '2024-13-15')).toBeNull(); // Invalid month
-      expect(parseNullableDate(testTimeZone, '2024-02-30')).toBeNull(); // Invalid day for February
-      expect(parseNullableDate(testTimeZone, 'abcd-01-15')).toBeNull(); // Non-numeric year
-      expect(parseNullableDate(testTimeZone, '2024-ab-15')).toBeNull(); // Non-numeric month
-      expect(parseNullableDate(testTimeZone, '2024-01-ab')).toBeNull(); // Non-numeric day
+      expect(
+        parseNullableDate('2024-13-15', { timeZone: testTimeZone }),
+      ).toBeNull(); // Invalid month
+
+      expect(
+        parseNullableDate('2024-02-30', { timeZone: testTimeZone }),
+      ).toBeNull(); // Invalid day for February
+
+      expect(
+        parseNullableDate('abcd-01-15', { timeZone: testTimeZone }),
+      ).toBeNull(); // Non-numeric year
+
+      expect(
+        parseNullableDate('2024-ab-15', { timeZone: testTimeZone }),
+      ).toBeNull(); // Non-numeric month
+
+      expect(
+        parseNullableDate('2024-01-ab', { timeZone: testTimeZone }),
+      ).toBeNull(); // Non-numeric day
     });
   });
 
   describe('when value is a datetime string (YYYY-MM-DDTHH:MM)', () => {
     it('parses valid datetime string correctly', () => {
-      const result = parseNullableDate(testTimeZone, '2024-01-15T10:30');
+      const result = parseNullableDate('2024-01-15T10:30', {
+        timeZone: testTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2024);
@@ -101,7 +135,9 @@ describe('parseNullableDate', () => {
     });
 
     it('parses datetime string with midnight', () => {
-      const result = parseNullableDate(utcTimeZone, '2024-06-01T00:00');
+      const result = parseNullableDate('2024-06-01T00:00', {
+        timeZone: utcTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getHours()).toBe(0);
@@ -109,7 +145,9 @@ describe('parseNullableDate', () => {
     });
 
     it('parses datetime string with 23:59', () => {
-      const result = parseNullableDate(testTimeZone, '2024-12-31T23:59');
+      const result = parseNullableDate('2024-12-31T23:59', {
+        timeZone: testTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getHours()).toBe(23);
@@ -117,40 +155,61 @@ describe('parseNullableDate', () => {
     });
 
     it('returns null for invalid datetime format', () => {
-      expect(parseNullableDate(testTimeZone, '2024-01-15T10:30:00')).toBeNull(); // Has seconds
-      expect(parseNullableDate(testTimeZone, '2024-01-15 10:30')).toBeNull(); // Space instead of T
-      expect(parseNullableDate(testTimeZone, '2024-01-15T10')).toBeNull(); // Missing minutes
       expect(
-        parseNullableDate(testTimeZone, '2024-01-15T10:30:00Z'),
+        parseNullableDate('2024-01-15T10:30:00', { timeZone: testTimeZone }),
+      ).toBeNull(); // Has seconds
+
+      expect(
+        parseNullableDate('2024-01-15 10:30', { timeZone: testTimeZone }),
+      ).toBeNull(); // Space instead of T
+
+      expect(
+        parseNullableDate('2024-01-15T10', { timeZone: testTimeZone }),
+      ).toBeNull(); // Missing minutes
+
+      expect(
+        parseNullableDate('2024-01-15T10:30:00Z', { timeZone: testTimeZone }),
       ).toBeNull(); // Has timezone
     });
 
     it('returns null for invalid time values', () => {
-      expect(parseNullableDate(testTimeZone, '2024-01-15T25:30')).toBeNull(); // Invalid hour
-      expect(parseNullableDate(testTimeZone, '2024-01-15T10:60')).toBeNull(); // Invalid minute
-      expect(parseNullableDate(testTimeZone, '2024-01-15Tab:30')).toBeNull(); // Non-numeric hour
-      expect(parseNullableDate(testTimeZone, '2024-01-15T10:ab')).toBeNull(); // Non-numeric minute
+      expect(
+        parseNullableDate('2024-01-15T25:30', { timeZone: testTimeZone }),
+      ).toBeNull(); // Invalid hour
+
+      expect(
+        parseNullableDate('2024-01-15T10:60', { timeZone: testTimeZone }),
+      ).toBeNull(); // Invalid minute
+
+      expect(
+        parseNullableDate('2024-01-15Tab:30', { timeZone: testTimeZone }),
+      ).toBeNull(); // Non-numeric hour
+
+      expect(
+        parseNullableDate('2024-01-15T10:ab', { timeZone: testTimeZone }),
+      ).toBeNull(); // Non-numeric minute
     });
   });
 
   describe('when value is null or undefined', () => {
     it('returns null for null input', () => {
-      const result = parseNullableDate(testTimeZone, null);
+      const result = parseNullableDate(null, { timeZone: testTimeZone });
+
       expect(result).toBeNull();
     });
 
     it('returns null for undefined input', () => {
-      const result = parseNullableDate(testTimeZone, undefined);
+      const result = parseNullableDate(undefined, { timeZone: testTimeZone });
+
       expect(result).toBeNull();
     });
   });
 
   describe('when value is an empty or whitespace string', () => {
     it('returns null for whitespace-only string', () => {
-      expect(parseNullableDate(testTimeZone, ' ')).toBeNull();
-      expect(parseNullableDate(testTimeZone, '   ')).toBeNull();
-      expect(parseNullableDate(testTimeZone, '\t')).toBeNull();
-      expect(parseNullableDate(testTimeZone, '\n')).toBeNull();
+      expect(parseNullableDate(' ', { timeZone: testTimeZone })).toBeNull();
+      expect(parseNullableDate('\t', { timeZone: testTimeZone })).toBeNull();
+      expect(parseNullableDate('\n', { timeZone: testTimeZone })).toBeNull();
     });
   });
 
@@ -158,9 +217,15 @@ describe('parseNullableDate', () => {
     it('creates TZDate in the correct timezone for different timezones', () => {
       const dateString = '2024-07-15T15:30';
 
-      const nyResult = parseNullableDate('America/New_York', dateString);
-      const laResult = parseNullableDate('America/Los_Angeles', dateString);
-      const utcResult = parseNullableDate('UTC', dateString);
+      const nyResult = parseNullableDate(dateString, {
+        timeZone: 'America/New_York',
+      });
+
+      const laResult = parseNullableDate(dateString, {
+        timeZone: 'America/Los_Angeles',
+      });
+
+      const utcResult = parseNullableDate(dateString, { timeZone: 'UTC' });
 
       expect(nyResult).toBeInstanceOf(TZDate);
       expect(laResult).toBeInstanceOf(TZDate);
@@ -175,7 +240,7 @@ describe('parseNullableDate', () => {
 
   describe('edge cases', () => {
     it('handles leap year dates correctly', () => {
-      const result = parseNullableDate(utcTimeZone, '2024-02-29');
+      const result = parseNullableDate('2024-02-29', { timeZone: utcTimeZone });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2024);
@@ -186,12 +251,14 @@ describe('parseNullableDate', () => {
     it('handles non-leap year February correctly', () => {
       // The function uses new TZDate constructor which should handle invalid dates gracefully
       // or the regex validation should prevent reaching this point
-      const result = parseNullableDate(utcTimeZone, '2023-02-29');
+      const result = parseNullableDate('2023-02-29', { timeZone: utcTimeZone });
       expect(result).toBeNull();
     });
 
     it('handles first day of year', () => {
-      const result = parseNullableDate(testTimeZone, '2024-01-01T00:00');
+      const result = parseNullableDate('2024-01-01T00:00', {
+        timeZone: testTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2024);
@@ -202,7 +269,9 @@ describe('parseNullableDate', () => {
     });
 
     it('handles last day of year', () => {
-      const result = parseNullableDate(testTimeZone, '2024-12-31T23:59');
+      const result = parseNullableDate('2024-12-31T23:59', {
+        timeZone: testTimeZone,
+      });
 
       expect(result).toBeInstanceOf(TZDate);
       expect(result?.getFullYear()).toBe(2024);

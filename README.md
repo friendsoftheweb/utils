@@ -135,7 +135,24 @@ Format a date or date string for use in a "date" input.
 ```typescript
 import { formatDateForDateInput } from '@friendsoftheweb/utils';
 
-formatDateForDateInput(new Date('2024-01-15')); // "2024-01-15"
+formatDateForDateInput(new Date('2024-01-15'), { timeZone: 'UTC' }); // "2024-01-15"
+
+formatDateForDateInput('2024-01-15T10:30:00Z', {
+  timeZone: 'America/New_York',
+}); // "2024-01-15"
+
+formatDateForDateInput(null, { timeZone: 'UTC' }); // "" (empty string for invalid dates)
+```
+
+You can also create a version of the function with options pre-specified:
+
+```typescript
+import { createFormatDateForDateInput } from '@friendsoftheweb/utils';
+
+const formatDateForDateInput = createFormatDateForDateInput({
+  timeZone: 'America/New_York',
+});
+
 formatDateForDateInput('2024-01-15T10:30:00Z'); // "2024-01-15"
 ```
 
@@ -146,8 +163,27 @@ Format a date or date string for use in a "datetime-local" input.
 ```typescript
 import { formatDateForDateTimeInput } from '@friendsoftheweb/utils';
 
-formatDateForDateTimeInput(new Date('2024-01-15T10:30:00Z')); // "2024-01-15T10:30"
-formatDateForDateTimeInput('2024-01-15T10:30:00Z'); // "2024-01-15T10:30"
+formatDateForDateTimeInput(new Date('2024-01-15T10:30:00Z'), {
+  timeZone: 'UTC',
+}); // "2024-01-15T10:30"
+
+formatDateForDateTimeInput('2024-01-15T10:30:00Z', {
+  timeZone: 'America/New_York',
+}); // "2024-01-15T05:30"
+
+formatDateForDateTimeInput(undefined, { timeZone: 'UTC' }); // "" (empty string for invalid dates)
+```
+
+You can also create a version of the function with options pre-specified:
+
+```typescript
+import { createFormatDateForDateTimeInput } from '@friendsoftheweb/utils';
+
+const formatDateForDateTimeInput = createFormatDateForDateTimeInput({
+  timeZone: 'America/New_York',
+});
+
+formatDateForDateTimeInput('2024-01-15T10:30:00Z'); // "2024-01-15T05:30"
 ```
 
 ### formatDuration
@@ -206,6 +242,21 @@ formatValue(2500000, {
   unit: 'users',
   maximumFractionDigits: 2,
 }); // "2.5M users"
+```
+
+You can also create a version of the function with default options specified:
+
+```typescript
+import { createFormatValue } from '@friendsoftheweb/utils';
+
+const formatUsers = createFormatValue({
+  abbreviate: true,
+  unit: 'users',
+  maximumFractionDigits: 2,
+});
+
+formatUsers(2_500_000); // "2.5M users"
+formatUsers(2_500_000, { abbreviate: false }); // "2,500,000 users"
 ```
 
 ## Time
@@ -304,17 +355,30 @@ import { parseNullableDate } from '@friendsoftheweb/utils';
 import { TZDate } from '@date-fns/tz';
 
 // Parse date strings
-parseNullableDate('2024-01-15', 'America/New_York'); // TZDate instance
-parseNullableDate('2024-01-15T10:30', 'UTC'); // TZDate instance
+parseNullableDate('2024-01-15', { timeZone: 'America/New_York' }); // TZDate instance
+parseNullableDate('2024-01-15T10:30', { timeZone: 'UTC' }); // TZDate instance
 
 // Handle existing dates
 const existingDate = new TZDate(2024, 0, 15, 'UTC');
-parseNullableDate(existingDate, 'America/New_York'); // Returns same TZDate
+parseNullableDate(existingDate, { timeZone: 'America/New_York' }); // Returns same TZDate
 
 // Handle invalid inputs
-parseNullableDate('invalid-date', 'UTC'); // null
-parseNullableDate(null, 'UTC'); // null
-parseNullableDate(undefined, 'UTC'); // null
+parseNullableDate('invalid-date', { timeZone: 'UTC' }); // null
+parseNullableDate(null, { timeZone: 'UTC' }); // null
+parseNullableDate(undefined, { timeZone: 'UTC' }); // null
+```
+
+You can also create a version of the function with options pre-specified:
+
+```typescript
+import { createParseNullableDate } from '@friendsoftheweb/utils';
+
+const parseNullableDate = createParseNullableDate({
+  timeZone: 'America/New_York',
+});
+
+parseNullableDate('2024-01-15'); // TZDate instance
+parseNullableDate(null); // null
 ```
 
 ### parseNullableFloat
