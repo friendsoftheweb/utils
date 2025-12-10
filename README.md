@@ -259,6 +259,33 @@ formatUsers(2_500_000); // "2.5M users"
 formatUsers(2_500_000, { abbreviate: false }); // "2,500,000 users"
 ```
 
+## HTTP
+
+### buildContentDispositionHeader
+
+Builds a Content-Disposition HTTP header for file downloads with proper filename
+encoding and sanitization.
+
+```typescript
+import { buildContentDispositionHeader } from '@friendsoftheweb/utils';
+
+// Basic attachment (default)
+buildContentDispositionHeader('document.pdf');
+// "attachment; filename="document.pdf"; filename*=UTF-8''document.pdf"
+
+// Inline display (e.g., for images in browser)
+buildContentDispositionHeader('image.jpg', { inline: true });
+// "inline; filename="image.jpg"; filename*=UTF-8''image.jpg"
+
+// Handles special characters and Unicode
+buildContentDispositionHeader('résumé.pdf');
+// "attachment; filename="résumé.pdf"; filename*=UTF-8''r%C3%A9sum%C3%A9.pdf"
+
+// Sanitizes problematic characters
+buildContentDispositionHeader('file"with;bad\\chars.txt');
+// "attachment; filename="file_with_bad_chars.txt"; filename*=UTF-8''file%22with%3Bbad%5Cchars.txt"
+```
+
 ## Time
 
 ### seconds

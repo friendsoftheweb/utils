@@ -25,12 +25,17 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - run: yarn types:check
+      - name: Check Types
+        run: yarn types:check
 
-      - run: yarn test
+      - name: Run Tests
+        run: yarn test
 
-      - run: yarn lint
+      - name: Lint Codebase
+        run: yarn lint
 
-      - run: yarn prettier:check
+      - name: Check Code Formatting
+        run: yarn format:check
 
-      - run: yarn build
+      - name: Build Project
+        run: yarn build
