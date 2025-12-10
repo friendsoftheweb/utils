@@ -28,6 +28,10 @@ export function createCSVStream(
   } = options;
 
   return new ReadableStream<string>({
+    async start(controller) {
+      controller.enqueue('\uFEFF'); // BOM for UTF-8
+    },
+
     async pull(controller) {
       try {
         const { value, done } = await rowGenerator.next();
