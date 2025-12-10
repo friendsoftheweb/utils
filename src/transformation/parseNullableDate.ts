@@ -4,7 +4,7 @@ import type { TimeZone } from '../types';
 
 import { isPresentString } from '../validation/isPresentString';
 
-interface ParseNullableDateOptions {
+export interface ParseNullableDateOptions {
   timeZone: TimeZone;
 }
 
