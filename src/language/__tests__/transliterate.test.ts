@@ -513,8 +513,8 @@ describe('transliterate', () => {
 
     it('should handle all supported characters consistently', () => {
       // Test that uppercase and lowercase variants map to the same base letter
-      const uppercases = 'ÀÁÂÄÆÃÅĀĂĄ';
-      const lowercases = 'àáâäæãåāăą';
+      const uppercases = 'ÀÁÂÄÆÃÅĀĂĄÉÈÊËĒĖĘÓÒÖÔÕØŌŐ';
+      const lowercases = 'àáâäæãåāăąéèêëēėęóòöôõøōő';
 
       const upperResult = transliterate(uppercases);
       const lowerResult = transliterate(lowercases);
