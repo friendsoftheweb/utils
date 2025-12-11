@@ -1,6 +1,73 @@
 import { removeDiacritics } from '../removeDiacritics';
 
 describe('removeDiacritics', () => {
+  describe('Latin-1 Supplement', () => {
+    it('all relevant characters are handled', () => {
+      const exceptions = [0x00d7, 0x00de, 0x00f0, 0x00f7, 0x00fe];
+
+      for (let code = 0x00c0; code <= 0x00ff; code++) {
+        if (exceptions.includes(code)) {
+          continue;
+        }
+
+        const character = String.fromCharCode(code);
+
+        expect(removeDiacritics(character)).not.toBe(character);
+      }
+    });
+  });
+
+  describe('Latin Extended-A', () => {
+    it('all relevant characters are handled', () => {
+      const exceptions = [0x0138];
+
+      for (let code = 0x0100; code <= 0x017f; code++) {
+        if (exceptions.includes(code)) {
+          continue;
+        }
+
+        const character = String.fromCharCode(code);
+
+        expect(removeDiacritics(character)).not.toBe(character);
+      }
+    });
+  });
+
+  describe('Latin Extended-B', () => {
+    it('all relevant characters are handled', () => {
+      const exceptions = [
+        0x01dd, 0x01e4, 0x01e5, 0x01ee, 0x01ef, 0x01f6, 0x01f7, 0x021c, 0x021d,
+        0x0220, 0x0221, 0x0222, 0x0223, 0x0224, 0x0225,
+      ];
+
+      for (let code = 0x01c4; code <= 0x0233; code++) {
+        if (exceptions.includes(code)) {
+          continue;
+        }
+
+        const character = String.fromCharCode(code);
+
+        expect(removeDiacritics(character)).not.toBe(character);
+      }
+    });
+  });
+
+  describe('Latin Extended Additional', () => {
+    it('all relevant characters are handled', () => {
+      const exceptions = [0x1e9c, 0x1e9d, 0x1e9e, 0x1e9f];
+
+      for (let i = 0x1e00; i <= 0x1ef9; i++) {
+        if (exceptions.includes(i)) {
+          continue;
+        }
+
+        const character = String.fromCharCode(i);
+
+        expect(removeDiacritics(character)).not.toBe(character);
+      }
+    });
+  });
+
   describe('uppercase letters', () => {
     it('should remove diacritics from A variants', () => {
       expect(removeDiacritics('À')).toBe('A');
