@@ -3,7 +3,7 @@ import { transliterate } from '../transliterate';
 describe('transliterate', () => {
   describe('Latin-1 Supplement', () => {
     it('all relevant characters are handled', () => {
-      const exceptions = [0x00d7, 0x00de, 0x00f0, 0x00f7, 0x00fe];
+      const exceptions = [0x00d7, 0x00de, 0x00f7, 0x00fe];
 
       for (let code = 0x00c0; code <= 0x00ff; code++) {
         if (exceptions.includes(code)) {
@@ -54,7 +54,7 @@ describe('transliterate', () => {
 
   describe('Latin Extended Additional', () => {
     it('all relevant characters are handled', () => {
-      const exceptions = [0x1e9c, 0x1e9d, 0x1e9e, 0x1e9f];
+      const exceptions = [0x1e9c, 0x1e9d, 0x1e9f];
 
       for (let i = 0x1e00; i <= 0x1ef9; i++) {
         if (exceptions.includes(i)) {
