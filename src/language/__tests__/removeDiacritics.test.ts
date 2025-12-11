@@ -415,10 +415,12 @@ describe('removeDiacritics', () => {
       expect(removeDiacritics('artículo-sobre-programación')).toBe(
         'articulo-sobre-programacion',
       );
+
       expect(removeDiacritics('café-près-de-chez-nous')).toBe(
         'cafe-pres-de-chez-nous',
       );
-      expect(removeDiacritics('tschüss-und-danke')).toBe('tschuess-und-danke');
+
+      expect(removeDiacritics('tschüss-und-danke')).toBe('tschuss-und-danke');
     });
 
     it('should normalize email addresses', () => {

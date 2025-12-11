@@ -1,43 +1,72 @@
+const REPLACEMENTS: Record<string, RegExp> = {
+  A: /À|Á|Â|Ã|Ä|Å|Ā|Ă|Ą|Ḁ|Ạ|Ả|Ấ|Ầ|Ẫ|Ẩ|Ậ|Ắ|Ằ|Ẵ|Ẳ|Ặ/gu,
+  a: /à|á|â|ã|ä|å|ā|ă|ą|ḁ|ạ|ả|ấ|ầ|ẫ|ẩ|ậ|ắ|ằ|ẵ|ẳ|ặ/gu,
+  B: /Ḃ|Ḅ|Ḇ/gu,
+  b: /ḃ|ḅ|ḇ/gu,
+  C: /Ç|Ć|Ĉ|Ċ|Č|Ḉ/gu,
+  c: /ç|ć|ĉ|ċ|č|ḉ/gu,
+  D: /Ď|Đ|Ḋ|Ḍ|Ḏ|Ḑ|Ḓ/gu,
+  d: /ď|đ|ḋ|ḍ|ḏ|ḑ|ḓ/gu,
+  E: /È|É|Ê|Ë|Ē|Ĕ|Ė|Ę|Ě|Ḕ|Ḗ|Ḙ|Ḛ|Ḝ|Ẹ|Ẻ|Ẽ|Ế|Ề|Ễ|Ể|Ệ/gu,
+  e: /è|é|ê|ë|ē|ĕ|ė|ę|ě|ḕ|ḗ|ḙ|ḛ|ḝ|ẹ|ẻ|ẽ|ế|ề|ễ|ể|ệ/gu,
+  F: /Ḟ/gu,
+  f: /ḟ/gu,
+  G: /Ĝ|Ğ|Ġ|Ģ|Ḡ/gu,
+  g: /ĝ|ğ|ġ|ģ|ḡ/gu,
+  H: /Ĥ|Ħ|Ḣ|Ḥ|Ḧ|Ḩ|Ḫ/gu,
+  h: /ĥ|ħ|ḣ|ḥ|ḧ|ḩ|ḫ/gu,
+  I: /Ì|Í|Î|Ï|Ĩ|Ī|Ĭ|Į|İ|Ḭ|Ḯ|Ỉ|Ị/gu,
+  i: /ì|í|î|ï|ĩ|ī|ĭ|į|ı|ḭ|ḯ|ỉ|ị/gu,
+  J: /Ĵ/gu,
+  j: /ĵ/gu,
+  K: /Ķ|Ḱ|Ḳ|Ḵ/gu,
+  k: /ķ|ḱ|ḳ|ḵ/gu,
+  L: /Ĺ|Ļ|Ł|Ḷ|Ḹ|Ḻ|Ḽ/gu,
+  l: /ĺ|ļ|ľ|ŀ|ł|ḷ|ḹ|ḻ|ḽ/gu,
+  M: /Ḿ|Ṁ|Ṃ/gu,
+  m: /ḿ|ṁ|ṃ/gu,
+  N: /Ñ|Ń|Ņ|Ň|Ŋ|Ṅ|Ṇ|Ṉ|Ṋ/gu,
+  n: /ñ|ń|ņ|ň|ŉ|ŋ|ṅ|ṇ|ṉ|ṋ/gu,
+  O: /Ó|Ò|Ö|Ô|Õ|Ø|Ō|Ő|Ṍ|Ṏ|Ṑ|Ṓ|Ọ|Ỏ|Ố|Ồ|Ỗ|Ổ|Ộ|Ớ|Ờ|Ỡ|Ở|Ợ/gu,
+  o: /ó|ò|ö|ô|õ|ø|ō|ő|ṍ|ṏ|ṑ|ṓ|ọ|ỏ|ố|ồ|ỗ|ổ|ộ|ớ|ờ|ỡ|ở|ợ/gu,
+  P: /Ṕ|Ṗ/gu,
+  p: /ṕ|ṗ/gu,
+  R: /Ŕ|Ř|Ṙ|Ṛ|Ṝ|Ṟ/gu,
+  r: /ŕ|ř|ṙ|ṛ|ṝ|ṟ/gu,
+  S: /Š|Ś|Ş|Ŝ|Ṡ|Ṣ|Ṥ|Ṧ|Ṩ/gu,
+  s: /š|ś|ş|ŝ|ṡ|ṣ|ṥ|ṧ|ṩ/gu,
+  T: /Ţ|Ṫ|Ṭ|Ṯ|Ṱ/gu,
+  t: /ţ|ṫ|ṭ|ṯ|ṱ/gu,
+  U: /Ú|Ù|Ü|Û|Ū|Ů|Ű|Ũ|Ṳ|Ṵ|Ṷ|Ṹ|Ṻ|Ụ|Ủ|Ứ|Ừ|Ữ|Ử|Ự/gu,
+  u: /ú|ù|ü|û|ū|ů|ű|ũ|ṳ|ṵ|ṷ|ṹ|ṻ|ụ|ủ|ứ|ừ|ữ|ử|ự/gu,
+  V: /Ṽ|Ṿ/gu,
+  v: /ṽ|ṿ/gu,
+  W: /Ŵ|Ẁ|Ẃ|Ẅ|Ẇ|Ẉ/gu,
+  w: /ŵ|ẁ|ẃ|ẅ|ẇ|ẉ/gu,
+  X: /Ẋ|Ẍ/gu,
+  x: /ẋ|ẍ/gu,
+  Y: /Ý|Ÿ|Ỳ|Ỵ|Ỷ|Ỹ|Ẏ/gu,
+  y: /ÿ|ý|ỳ|ỵ|ỷ|ỹ|ẏ/gu,
+  Z: /Ž|Ź|Ż|Ẑ|Ẓ|Ẕ/gu,
+  z: /ž|ź|ż|ẑ|ẓ|ẕ/gu,
+  AE: /Æ/gu,
+  ae: /æ/gu,
+  OE: /Œ/gu,
+  oe: /œ/gu,
+  ss: /ß/gu,
+  ff: /ﬀ/gu,
+  fi: /ﬁ/gu,
+  fl: /ﬂ/gu,
+  ffi: /ﬃ/gu,
+  ffl: /ﬄ/gu,
+};
+
 export function removeDiacritics(value: string): string {
-  return value
-    .replace(/Æ/gu, 'AE')
-    .replace(/æ/gu, 'ae')
-    .replace(/À|Á|Â|Ä|Æ|Ã|Å|Ā|Ă|Ą/gu, 'A')
-    .replace(/á|å|ä|â|ã|à|ā|ă|ą/gu, 'a')
-    .replace(/Ç|Ć|Č|Ĉ|Ċ/gu, 'C')
-    .replace(/ç|ć|č|ĉ|ċ/gu, 'c')
-    .replace(/đ/gu, 'd')
-    .replace(/É|È|Ê|Ë|Ē|Ė|Ę/gu, 'E')
-    .replace(/é|è|ê|ë|ē|ė|ę|ě/gu, 'e')
-    .replace(/Ĝ/gu, 'G')
-    .replace(/ğ|ĝ/gu, 'g')
-    .replace(/Ĥ|Ħ/gu, 'H')
-    .replace(/ĥ|ħ/gu, 'h')
-    .replace(/Í|Ì|Ï|Î|Ī|Į|İ/gu, 'I')
-    .replace(/í|ì|ï|î|ī|į|ı/gu, 'i')
-    .replace(/Ĵ/gu, 'J')
-    .replace(/ĵ/gu, 'j')
-    .replace(/Ķ/gu, 'K')
-    .replace(/ķ/gu, 'k')
-    .replace(/Ĺ|Ł/gu, 'L')
-    .replace(/ĺ|ł/gu, 'l')
-    .replace(/Ñ|Ń|Ň|Ņ|Ŋ/gu, 'N')
-    .replace(/ñ|ń|ň|ņ|ŋ/gu, 'n')
-    .replace(/Ó|Ò|Ö|Ô|Õ|Ø|Ō|Ő/gu, 'O')
-    .replace(/ó|ò|ö|ô|õ|ø|ō|ő/gu, 'o')
-    .replace(/Ŕ|Ř/gu, 'R')
-    .replace(/ŕ|ř/gu, 'r')
-    .replace(/Š|Ś|Ş|Ŝ/gu, 'S')
-    .replace(/š|ś|ş|ŝ/gu, 's')
-    .replace(/ß/gu, 'ss')
-    .replace(/Ţ/gu, 'T')
-    .replace(/ţ/gu, 't')
-    .replace(/Ú|Ù|Ü|Û|Ū|Ů|Ű/gu, 'U')
-    .replace(/ú|ù|ü|û|ū|ů|ű/gu, 'u')
-    .replace(/Ŵ/gu, 'W')
-    .replace(/ŵ/gu, 'w')
-    .replace(/Ý|Ÿ/gu, 'Y')
-    .replace(/ÿ|ý/gu, 'y')
-    .replace(/Ž|Ź|Ż/gu, 'Z')
-    .replace(/ž|ź|ż/gu, 'z');
+  let result = value.normalize('NFC');
+
+  for (const [replacement, pattern] of Object.entries(REPLACEMENTS)) {
+    result = result.replace(pattern, replacement);
+  }
+
+  return result;
 }
