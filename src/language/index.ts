@@ -1,2 +1,2 @@
-export * from './removeDiacritics';
+export * from './transliterate';
 export * from './slugify';

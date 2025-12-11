@@ -67,7 +67,7 @@ export const REPLACEMENTS: Record<string, RegExp> = {
   Z: /Ź|Ż|Ž|Ẑ|Ẓ|Ẕ/gu,
 };
 
-export function removeDiacritics(value: string): string {
+export function transliterate(value: string): string {
   let result = value.normalize('NFC');
 
   for (const [replacement, pattern] of Object.entries(REPLACEMENTS)) {

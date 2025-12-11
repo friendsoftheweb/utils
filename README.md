@@ -314,33 +314,33 @@ slugify('2 + 2 = 4'); // "2-plus-2-equals-4"
 slugify('Price/Quality Ratio'); // "price-slash-quality-ratio"
 ```
 
-### removeDiacritics
+### transliterate
 
 Removes diacritical marks (accents) from Latin characters while preserving the
 base letters.
 
 ```typescript
-import { removeDiacritics } from '@friendsoftheweb/utils';
+import { transliterate } from '@friendsoftheweb/utils';
 
 // Basic usage
-removeDiacritics('café'); // "cafe"
-removeDiacritics('résumé'); // "resume"
-removeDiacritics('naïve'); // "naive"
+transliterate('café'); // "cafe"
+transliterate('résumé'); // "resume"
+transliterate('naïve'); // "naive"
 
 // Handles various languages
-removeDiacritics('français'); // "francais"
-removeDiacritics('Mädchen'); // "Madchen"
-removeDiacritics('niño'); // "nino"
-removeDiacritics('São Paulo'); // "Sao Paulo"
+transliterate('français'); // "francais"
+transliterate('Mädchen'); // "Madchen"
+transliterate('niño'); // "nino"
+transliterate('São Paulo'); // "Sao Paulo"
 
 // Preserves case and structure
-removeDiacritics('José María García'); // "Jose Maria Garcia"
-removeDiacritics('CAFÉ RÉSUMÉ'); // "CAFE RESUME"
-removeDiacritics('The café serves crêpes'); // "The cafe serves crepes"
+transliterate('José María García'); // "Jose Maria Garcia"
+transliterate('CAFÉ RÉSUMÉ'); // "CAFE RESUME"
+transliterate('The café serves crêpes'); // "The cafe serves crepes"
 
 // Special character handling
-removeDiacritics('Straße'); // "Strasse" (German ß becomes ss)
-removeDiacritics('Æon'); // "AEon" (Æ becomes AE)
+transliterate('Straße'); // "Strasse" (German ß becomes ss)
+transliterate('Æon'); // "AEon" (Æ becomes AE)
 ```
 
 ## Time

@@ -1,7 +1,7 @@
-import { removeDiacritics } from './removeDiacritics';
+import { transliterate } from './transliterate';
 
 export function slugify(value: string): string {
-  return removeDiacritics(value)
+  return transliterate(value)
     .toLowerCase()
     .trim()
     .replace(/\&/g, ' and ')
