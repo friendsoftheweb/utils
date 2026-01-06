@@ -1,8 +1,16 @@
 # Utils
 
-## Async
+## Installation
 
-### delay
+```bash
+yarn add @friendsoftheweb/utils
+```
+
+## Functions
+
+### Async
+
+#### delay
 
 Delay execution for a specified number of milliseconds.
 
@@ -12,9 +20,9 @@ import { delay } from '@friendsoftheweb/utils';
 await delay(1000); // Wait for 1 second
 ```
 
-## CSV
+### CSV
 
-### createCSVStream
+#### createCSVStream
 
 Creates a ReadableStream that generates CSV data from an async generator of
 rows.
@@ -34,7 +42,7 @@ const stream = createCSVStream(getRows, {
 });
 ```
 
-### serializeCSVCell
+#### serializeCSVCell
 
 Serializes a single CSV cell value to a properly escaped string.
 
@@ -49,7 +57,7 @@ serializeCSVCell(true); // "true"
 serializeCSVCell(new Date('2024-01-01')); // "January 1, 2024"
 ```
 
-### serializeCSVRow
+#### serializeCSVRow
 
 Serializes an array of CSV cell values to a CSV row string.
 
@@ -60,9 +68,9 @@ serializeCSVRow(['Name', 'Age', 'Active']); // "Name,Age,Active\n"
 serializeCSVRow(['John', 30, true]); // "John,30,true\n"
 ```
 
-## Encryption
+### Encryption
 
-### createEncryptValue
+#### createEncryptValue
 
 Creates a function that encrypts strings using AES-256-CTR encryption.
 
@@ -77,7 +85,7 @@ const encrypted = encryptValue('secret data');
 // Returns: { iv: 'hex-string', content: 'hex-string' }
 ```
 
-### createDecryptValue
+#### createDecryptValue
 
 Creates a function that decrypts values encrypted by `createEncryptValue`.
 
@@ -91,9 +99,9 @@ const decryptValue = createDecryptValue(
 const decrypted = decryptValue(encrypted); // Returns: 'secret data'
 ```
 
-## Environment
+### Environment
 
-### getEnvBoolean
+#### getEnvBoolean
 
 Get a boolean value from an environment variable with optional default.
 
@@ -104,7 +112,7 @@ const isEnabled = getEnvBoolean('FEATURE_ENABLED'); // Throws if not set
 const isDebug = getEnvBoolean('DEBUG', false); // Returns false if not set
 ```
 
-### getEnvNumber
+#### getEnvNumber
 
 Get a numeric value from an environment variable with optional default.
 
@@ -115,7 +123,7 @@ const port = getEnvNumber('PORT'); // Throws if not set
 const timeout = getEnvNumber('TIMEOUT', 30000); // Returns 30000 if not set
 ```
 
-### getEnvString
+#### getEnvString
 
 Get a string value from an environment variable with optional default.
 
@@ -126,9 +134,9 @@ const apiUrl = getEnvString('API_URL'); // Throws if not set
 const environment = getEnvString('NODE_ENV', 'development'); // Returns 'development' if not set
 ```
 
-## Formatting
+### Formatting
 
-### formatDateForDateInput
+#### formatDateForDateInput
 
 Format a date or date string for use in a "date" input.
 
@@ -156,7 +164,7 @@ const formatDateForDateInput = createFormatDateForDateInput({
 formatDateForDateInput('2024-01-15T10:30:00Z'); // "2024-01-15"
 ```
 
-### formatDateForDateTimeInput
+#### formatDateForDateTimeInput
 
 Format a date or date string for use in a "datetime-local" input.
 
@@ -186,7 +194,7 @@ const formatDateForDateTimeInput = createFormatDateForDateTimeInput({
 formatDateForDateTimeInput('2024-01-15T10:30:00Z'); // "2024-01-15T05:30"
 ```
 
-### formatDuration
+#### formatDuration
 
 Format a duration in seconds to a string in the format "HH:MM:SS" or "MM:SS".
 
@@ -198,7 +206,7 @@ formatDuration(125); // "02:05"
 formatDuration(3665); // "01:01:05"
 ```
 
-### formatFileSize
+#### formatFileSize
 
 Format a file size in bytes into a human-readable string using decimal SI units.
 
@@ -211,7 +219,7 @@ formatFileSize(2000000000); // "2 GB"
 formatFileSize(-100); // Throws error: "File size cannot be negative"
 ```
 
-### formatValue
+#### formatValue
 
 Formats a numeric value with optional order-of-magnitude abbreviation and unit.
 
@@ -259,9 +267,9 @@ formatUsers(2_500_000); // "2.5M users"
 formatUsers(2_500_000, { abbreviate: false }); // "2,500,000 users"
 ```
 
-## HTTP
+### HTTP
 
-### buildContentDispositionHeader
+#### buildContentDispositionHeader
 
 Builds a Content-Disposition HTTP header for file downloads with proper filename
 encoding and sanitization.
@@ -286,9 +294,9 @@ buildContentDispositionHeader('file"with;bad\\chars.txt');
 // "attachment; filename="file_with_bad_chars.txt"; filename*=UTF-8''file%22with%3Bbad%5Cchars.txt"
 ```
 
-## Language
+### Language
 
-### slugify
+#### slugify
 
 Creates URL-friendly slugs from text by removing diacritics, normalizing special
 characters, and converting to lowercase with hyphens.
@@ -314,7 +322,7 @@ slugify('2 + 2 = 4'); // "2-plus-2-equals-4"
 slugify('Price/Quality Ratio'); // "price-slash-quality-ratio"
 ```
 
-### transliterate
+#### transliterate
 
 Removes diacritical marks (accents) from Latin characters while preserving the
 base letters.
@@ -343,9 +351,9 @@ transliterate('Straße'); // "Strasse" (German ß becomes ss)
 transliterate('Æon'); // "AEon" (Æ becomes AE)
 ```
 
-## Time
+### Time
 
-### seconds
+#### seconds
 
 Converts a duration in seconds to milliseconds.
 
@@ -356,7 +364,7 @@ seconds(30); // 30000 (milliseconds)
 setTimeout(callback, seconds(5)); // Wait 5 seconds
 ```
 
-### minutes
+#### minutes
 
 Converts a duration in minutes to milliseconds.
 
@@ -367,7 +375,7 @@ minutes(5); // 300000 (milliseconds)
 setTimeout(callback, minutes(2)); // Wait 2 minutes
 ```
 
-### hours
+#### hours
 
 Converts a duration in hours to milliseconds.
 
@@ -378,7 +386,7 @@ hours(1); // 3600000 (milliseconds)
 setTimeout(callback, hours(1)); // Wait 1 hour
 ```
 
-### days
+#### days
 
 Converts a duration in days to milliseconds.
 
@@ -389,9 +397,9 @@ days(1); // 86400000 (milliseconds)
 const expirationTime = Date.now() + days(7); // Expires in 7 days
 ```
 
-## Transformation
+### Transformation
 
-### deepTransformKeys
+#### deepTransformKeys
 
 Recursively transforms all object keys in a nested data structure using a
 provided transformation function. Also includes curried convenience functions.
@@ -429,7 +437,7 @@ const toCamelCase = deepTransformKeys(camelCase);
 const transformedArray = apiData.map(toCamelCase);
 ```
 
-### parseNullableDate
+#### parseNullableDate
 
 Parses various date inputs into TZDate objects with timezone support, returning
 null for invalid inputs.
@@ -465,7 +473,7 @@ parseNullableDate('2024-01-15'); // TZDate instance
 parseNullableDate(null); // null
 ```
 
-### parseNullableFloat
+#### parseNullableFloat
 
 Parses string values to floating-point numbers, returning undefined for invalid
 inputs.
@@ -486,7 +494,7 @@ parseNullableFloat(null); // undefined
 parseNullableFloat(undefined); // undefined
 ```
 
-### parseNullableInt
+#### parseNullableInt
 
 Parses string values to integers, returning NaN for invalid strings or undefined
 for null/undefined inputs.
@@ -505,7 +513,7 @@ parseNullableInt(null); // undefined
 parseNullableInt(undefined); // undefined
 ```
 
-### presence
+#### presence
 
 Returns the input value when it is considered "present", otherwise undefined.
 
@@ -529,9 +537,9 @@ presence(null); // undefined
 presence(undefined); // undefined
 ```
 
-## Validation
+### Validation
 
-### isPresent
+#### isPresent
 
 Type guard that determines whether a value is "present" based on type-specific
 checks.
@@ -560,7 +568,7 @@ isPresent(null); // false
 isPresent(undefined); // false
 ```
 
-### isPresentNumber
+#### isPresentNumber
 
 Type guard that checks if a value is a valid, present number.
 
@@ -577,7 +585,7 @@ isPresentNumber('42'); // false (string, not number)
 isPresentNumber(null); // false
 ```
 
-### isPresentString
+#### isPresentString
 
 Type guard that checks if a value is a non-empty string with meaningful content.
 
@@ -594,7 +602,7 @@ isPresentString(42); // false (not a string)
 isPresentString(null); // false
 ```
 
-## Types
+### Types
 
 The library also exports TypeScript types for better development experience:
 

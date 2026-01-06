@@ -1,6 +1,8 @@
 {
   "name": "@friendsoftheweb/utils",
-  "repository": "https://github.com/friendsoftheweb/utils.git",
+  "repository": {
+    "url": "git+https://github.com/friendsoftheweb/utils.git"
+  },
   "version": "0.6.0",
   "license": "MIT",
   "packageManager": "yarn@4.12.0",
