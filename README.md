@@ -77,12 +77,12 @@ Creates a function that encrypts strings using AES-256-CTR encryption.
 ```typescript
 import { createEncryptValue } from '@friendsoftheweb/utils';
 
-const encryptValue = createEncryptValue(
-  'aes-256-ctr',
-  'your-32-byte-encryption-key-here',
-);
-const encrypted = encryptValue('secret data');
-// Returns: { iv: 'hex-string', content: 'hex-string' }
+const encryptValue = createEncryptValue({
+  algorithm: 'aes-256-ctr',
+  encryptionKey: 'your-32-byte-encryption-key-here',
+});
+
+const encrypted = encryptValue('secret data'); // Returns: { iv: 'hex-string', content: 'hex-string' }
 ```
 
 #### createDecryptValue
@@ -92,10 +92,11 @@ Creates a function that decrypts values encrypted by `createEncryptValue`.
 ```typescript
 import { createDecryptValue } from '@friendsoftheweb/utils';
 
-const decryptValue = createDecryptValue(
-  'aes-256-ctr',
-  'your-32-byte-encryption-key-here',
-);
+const decryptValue = createDecryptValue({
+  algorithm: 'aes-256-ctr',
+  encryptionKey: 'your-32-byte-encryption-key-here',
+});
+
 const decrypted = decryptValue(encrypted); // Returns: 'secret data'
 ```
 
