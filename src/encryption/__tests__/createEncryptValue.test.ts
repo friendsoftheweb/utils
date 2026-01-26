@@ -5,13 +5,13 @@ import { createEncryptValue } from '../createEncryptValue';
 
 describe('createEncryptValue and createDecryptValue', () => {
   const algorithm = 'aes-256-ctr';
-  const testKey = '0123456789abcdef0123456789abcdef'; // 32 bytes for AES-256
+  const encryptionKey = '0123456789abcdef0123456789abcdef'; // 32 bytes for AES-256
 
   describe('createEncryptValue', () => {
     let encryptValue: ReturnType<typeof createEncryptValue>;
 
     beforeEach(() => {
-      encryptValue = createEncryptValue(algorithm, testKey);
+      encryptValue = createEncryptValue({ algorithm, encryptionKey });
     });
 
     it('creates a function that encrypts values', () => {
@@ -87,7 +87,7 @@ describe('createEncryptValue and createDecryptValue', () => {
     let decryptValue: ReturnType<typeof createDecryptValue>;
 
     beforeEach(() => {
-      decryptValue = createDecryptValue(algorithm, testKey);
+      decryptValue = createDecryptValue({ algorithm, encryptionKey });
     });
 
     it('creates a function that decrypts values', () => {
@@ -95,7 +95,11 @@ describe('createEncryptValue and createDecryptValue', () => {
     });
 
     it('decrypts previously encrypted values', () => {
-      const encryptValue = createEncryptValue(algorithm, testKey);
+      const encryptValue = createEncryptValue({
+        algorithm,
+        encryptionKey,
+      });
+
       const originalText = 'Hello, World!';
 
       const encrypted = encryptValue(originalText);
@@ -105,7 +109,11 @@ describe('createEncryptValue and createDecryptValue', () => {
     });
 
     it('decrypts empty strings', () => {
-      const encryptValue = createEncryptValue(algorithm, testKey);
+      const encryptValue = createEncryptValue({
+        algorithm,
+        encryptionKey,
+      });
+
       const originalText = '';
 
       const encrypted = encryptValue(originalText);
@@ -115,7 +123,11 @@ describe('createEncryptValue and createDecryptValue', () => {
     });
 
     it('decrypts special characters and unicode', () => {
-      const encryptValue = createEncryptValue(algorithm, testKey);
+      const encryptValue = createEncryptValue({
+        algorithm,
+        encryptionKey,
+      });
+
       const originalText = 'Special chars: @#$%^&*() 🎉 日本語';
 
       const encrypted = encryptValue(originalText);
@@ -125,7 +137,11 @@ describe('createEncryptValue and createDecryptValue', () => {
     });
 
     it('decrypts multiline strings', () => {
-      const encryptValue = createEncryptValue(algorithm, testKey);
+      const encryptValue = createEncryptValue({
+        algorithm,
+        encryptionKey,
+      });
+
       const originalText = 'Line 1\nLine 2\r\nLine 3\tWith tab';
 
       const encrypted = encryptValue(originalText);
@@ -149,8 +165,8 @@ describe('createEncryptValue and createDecryptValue', () => {
     let decryptValue: ReturnType<typeof createDecryptValue>;
 
     beforeEach(() => {
-      encryptValue = createEncryptValue(algorithm, testKey);
-      decryptValue = createDecryptValue(algorithm, testKey);
+      encryptValue = createEncryptValue({ algorithm, encryptionKey });
+      decryptValue = createDecryptValue({ algorithm, encryptionKey });
     });
 
     it('successfully encrypts and decrypts various text types', () => {
@@ -207,33 +223,11 @@ describe('createEncryptValue and createDecryptValue', () => {
     });
   });
 
-  describe('algorithm and key validation', () => {
-    it('works with the specified algorithm', () => {
-      const encryptValue = createEncryptValue(algorithm, testKey);
-      const decryptValue = createDecryptValue(algorithm, testKey);
-
-      const encrypted = encryptValue('test');
-      const decrypted = decryptValue(encrypted);
-
-      expect(decrypted).toBe('test');
-    });
-
-    it('requires matching algorithms for encrypt/decrypt', () => {
-      const encryptValue = createEncryptValue(algorithm, testKey);
-      const decryptValue = createDecryptValue(algorithm, testKey);
-
-      const encrypted = encryptValue('test');
-      const decrypted = decryptValue(encrypted);
-
-      expect(decrypted).toBe('test');
-    });
-  });
-
   describe('security properties', () => {
     let encryptValue: ReturnType<typeof createEncryptValue>;
 
     beforeEach(() => {
-      encryptValue = createEncryptValue(algorithm, testKey);
+      encryptValue = createEncryptValue({ algorithm, encryptionKey });
     });
 
     it('generates cryptographically random IVs', () => {
@@ -273,7 +267,10 @@ describe('createEncryptValue and createDecryptValue', () => {
   describe('error handling', () => {
     it('throws meaningful errors for invalid algorithm', () => {
       expect(() => {
-        createEncryptValue('invalid-algorithm' as any, testKey);
+        createEncryptValue({
+          algorithm: 'invalid-algorithm' as any,
+          encryptionKey,
+        });
       }).toThrow();
     });
 
@@ -281,7 +278,7 @@ describe('createEncryptValue and createDecryptValue', () => {
       const shortKey = '123'; // Too short for AES-256
 
       expect(() => {
-        createEncryptValue(algorithm, shortKey);
+        createEncryptValue({ algorithm, encryptionKey: shortKey });
       }).toThrow();
     });
   });
