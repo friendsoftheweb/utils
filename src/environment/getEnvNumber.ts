@@ -1,26 +1,25 @@
-export function getEnvNumber<T = number>(
-  name: string,
-  defaultValue?: T,
-): number | T {
-  const unparsedValue = process.env[name];
+import { getEnvInteger } from './getEnvInteger';
 
-  let value: number | T | undefined;
+/**
+ * Alias for `getEnvInteger()` to maintain backward compatibility.
+ *
+ * Retrieves an environment variable and parses it as a number.
+ *
+ * If the variable is not defined, it returns the provided default value or
+ * throws a descriptive error. If the variable cannot be parsed as a number,
+ * it throws an error.
+ *
+ * @deprecated Use getEnvInteger instead.
+ * @param name - The name of the environment variable to retrieve.
+ * @param defaultValue - An optional default value to return if the variable is
+ * not defined.
+ * @throws Will throw an error if the environment variable is not defined and no
+ * default value is provided, or if the variable cannot be parsed as a number.
+ */
+export function getEnvNumber(...args: Parameters<typeof getEnvInteger>) {
+  console.warn(
+    'Warning: getEnvNumber is deprecated and will be removed in future versions. Please use getEnvInteger instead.',
+  );
 
-  if (unparsedValue != null) {
-    value = parseInt(unparsedValue, 10);
-
-    if (Number.isNaN(value)) {
-      throw new Error(
-        `Environment variable "${name}" could not be parsed as a number`,
-      );
-    }
-  } else {
-    value = defaultValue;
-  }
-
-  if (value === undefined) {
-    throw new Error(`Environment variable "${name}" is not defined`);
-  }
-
-  return value;
+  return getEnvInteger(...args);
 }
