@@ -19,6 +19,7 @@
  *
  * // Assuming process.env.TIMEOUT is not defined
  * const timeout = getEnvInteger('TIMEOUT', 5000); // returns 5000
+ * ```
  */
 export function getEnvInteger<T = number>(
   name: string,

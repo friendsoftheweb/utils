@@ -19,6 +19,7 @@
  *
  * // Assuming process.env.DEBUG_MODE is not defined
  * const isDebugMode = getEnvBoolean('DEBUG_MODE', false); // returns false
+ * ```
  */
 export function getEnvBoolean<T = boolean>(
   name: string,

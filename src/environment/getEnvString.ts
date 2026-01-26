@@ -15,6 +15,7 @@
  *
  * // Assuming process.env.API_KEY is not defined
  * const apiKey = getEnvString('API_KEY'); // throws an error
+ * ```
  */
 export function getEnvString<T = string>(
   name: string,
