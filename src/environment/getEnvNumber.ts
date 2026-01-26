@@ -1,3 +1,25 @@
+/**
+ * Retrieves an environment variable and parses it as a number.
+ *
+ * If the variable is not defined, it returns the provided default value or
+ * throws a descriptive error. If the variable cannot be parsed as a number,
+ * it throws an error.
+ *
+ * @param name - The name of the environment variable to retrieve.
+ * @param defaultValue - An optional default value to return if the variable is
+ * not defined.
+ *
+ * @throws Will throw an error if the environment variable is not defined and no
+ * default value is provided, or if the variable cannot be parsed as a number.
+ *
+ * @example
+ * ```ts
+ * // Assuming process.env.PORT = '3000'
+ * const port = getEnvNumber('PORT'); // returns 3000
+ *
+ * // Assuming process.env.TIMEOUT is not defined
+ * const timeout = getEnvNumber('TIMEOUT', 5000); // returns 5000
+ */
 export function getEnvNumber<T = number>(
   name: string,
   defaultValue?: T,
