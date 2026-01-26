@@ -112,15 +112,15 @@ const isEnabled = getEnvBoolean('FEATURE_ENABLED'); // Throws if not set
 const isDebug = getEnvBoolean('DEBUG', false); // Returns false if not set
 ```
 
-#### getEnvNumber
+#### getEnvInteger
 
 Get a numeric value from an environment variable with optional default.
 
 ```typescript
-import { getEnvNumber } from '@friendsoftheweb/utils';
+import { getEnvInteger } from '@friendsoftheweb/utils';
 
-const port = getEnvNumber('PORT'); // Throws if not set
-const timeout = getEnvNumber('TIMEOUT', 30000); // Returns 30000 if not set
+const port = getEnvInteger('PORT'); // Throws if not set
+const timeout = getEnvInteger('TIMEOUT', 30000); // Returns 30000 if not set
 ```
 
 #### getEnvString
