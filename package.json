@@ -3,18 +3,22 @@
   "repository": {
     "url": "git+https://github.com/friendsoftheweb/utils.git"
   },
-  "version": "0.7.0",
+  "version": "0.8.0-beta.0",
+  "type": "module",
   "license": "MIT",
   "packageManager": "yarn@4.12.0",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "node": "./dist/cjs/index.js",
-      "require": "./dist/cjs/index.js",
-      "default": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "sideEffects": false,
@@ -27,15 +31,14 @@
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint .",
-    "build": "rm -rf dist && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript && tsc -p tsconfig.build.json",
+    "build": "tsdown",
+    "prepack": "tsdown",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-typescript": "^12.3.0",
     "@types/jest": "^30.0.0",
     "@types/lodash-es": "^4",
     "@types/node": "^24.10.1",
@@ -46,17 +49,13 @@
     "jest": "^30.2.0",
     "lint-staged": "^16.2.7",
     "prettier": "^3.6.2",
-    "rollup": "^4.53.3",
-    "ts-node": "^10.9.2",
-    "tslib": "^2.8.1",
+    "tsdown": "^0.20.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0"
   },
-  "optionalDependencies": {
-    "@date-fns/tz": "^1.0.0",
-    "date-fns": "^4.0.0"
-  },
   "dependencies": {
+    "@date-fns/tz": "^1.0.0",
+    "date-fns": "^4.0.0",
     "lodash-es": "^4.17.21"
   }
 }

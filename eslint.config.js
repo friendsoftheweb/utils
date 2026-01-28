@@ -1,9 +1,17 @@
 import { defineConfig } from 'eslint/config';
-import tseslint from 'typescript-eslint';
+
 import perfectionist from 'eslint-plugin-perfectionist';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  { ignores: ['.yarn/**/*', 'coverage/**/*.js', 'dist/**/*'] },
+  {
+    ignores: [
+      '.yarn/**/*',
+      'coverage/**/*.js',
+      'dist/**/*',
+      'eslint.config.js',
+    ],
+  },
   {
     extends: [tseslint.configs.recommended],
     plugins: {
