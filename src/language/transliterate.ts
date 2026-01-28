@@ -1,4 +1,4 @@
-export const REPLACEMENTS: Record<string, RegExp> = {
+const REPLACEMENTS: Record<string, RegExp> = {
   a: /à|á|â|ã|ä|å|ā|ă|ą|ǎ|ǟ|ǡ|ǻ|ȁ|ȃ|ȧ|ḁ|ẚ|ạ|ả|ấ|ầ|ẩ|ẫ|ậ|ắ|ằ|ẳ|ẵ|ặ/gu,
   A: /À|Á|Â|Ã|Ä|Å|Ā|Ă|Ą|Ǎ|Ǟ|Ǡ|Ǻ|Ȁ|Ȃ|Ȧ|Ⱥ|Ḁ|Ạ|Ả|Ấ|Ầ|Ẩ|Ẫ|Ậ|Ắ|Ằ|Ẳ|Ẵ|Ặ/gu,
   ae: /æ|ǣ|ǽ/gu,

@@ -46,9 +46,12 @@ jobs:
           set -euo pipefail
 
           FILES=(
-            "dist/cjs/index.js"
-            "dist/esm/index.js"
-            "dist/types/index.d.ts"
+            "dist/index.mjs"
+            "dist/index.mjs.map"
+            "dist/index.d.mts"
+            "dist/index.cjs"
+            "dist/index.cjs.map"
+            "dist/index.d.cts"
           )
 
           for file in "${FILES[@]}"; do
@@ -58,4 +61,4 @@ jobs:
             fi
           done
 
-      - run: npm publish --access public --provenance
+      - run: npm publish --access public

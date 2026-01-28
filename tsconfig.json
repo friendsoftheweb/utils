@@ -18,5 +18,5 @@
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true
   },
-  "include": ["src", "rollup.config.ts", "jest.setup.ts"]
+  "include": ["src", "tsdown.config.ts", "jest.setup.ts"]
 }
