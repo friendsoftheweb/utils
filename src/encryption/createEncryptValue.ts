@@ -16,12 +16,6 @@ export function createEncryptValue(options: {
   algorithm: Algorithm;
   encryptionKey: string;
 }) {
-  // Require 'crypto' module inline to avoid loading it in environments where
-  // it's not needed/supported
-
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { randomBytes, createCipheriv } = require('node:crypto');
-
   const { algorithm, encryptionKey } = options;
 
   if (KEY_LENGTHS[algorithm] == null) {
@@ -34,7 +28,11 @@ export function createEncryptValue(options: {
     );
   }
 
-  return function encryptValue(value: string): EncryptedValue {
+  return async function encryptValue(value: string): Promise<EncryptedValue> {
+    // Require 'crypto' module inline to avoid loading it in environments where
+    // it's not needed/supported (e.g. browsers)
+    const { randomBytes, createCipheriv } = await import('node:crypto');
+
     const iv = randomBytes(16);
     const cipher = createCipheriv(algorithm, encryptionKey, iv);
     const content = Buffer.concat([cipher.update(value), cipher.final()]);

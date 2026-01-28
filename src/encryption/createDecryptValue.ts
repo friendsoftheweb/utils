@@ -14,12 +14,6 @@ export function createDecryptValue(options: {
   algorithm: Algorithm;
   encryptionKey: string;
 }) {
-  // Require 'crypto' module inline to avoid loading it in environments where
-  // it's not needed/supported
-
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { createDecipheriv } = require('node:crypto');
-
   const { algorithm, encryptionKey } = options;
 
   if (KEY_LENGTHS[algorithm] == null) {
@@ -32,7 +26,13 @@ export function createDecryptValue(options: {
     );
   }
 
-  return function decryptValue(encryptedValue: EncryptedValue): string {
+  return async function decryptValue(
+    encryptedValue: EncryptedValue,
+  ): Promise<string> {
+    // Require 'crypto' module inline to avoid loading it in environments where
+    // it's not needed/supported (e.g. browsers)
+    const { createDecipheriv } = await import('node:crypto');
+
     const decipher = createDecipheriv(
       algorithm,
       encryptionKey,
