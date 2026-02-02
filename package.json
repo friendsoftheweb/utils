@@ -3,7 +3,7 @@
   "repository": {
     "url": "git+https://github.com/friendsoftheweb/utils.git"
   },
-  "version": "0.11.0-beta.0",
+  "version": "0.11.0",
   "type": "module",
   "license": "MIT",
   "packageManager": "yarn@4.12.0",
