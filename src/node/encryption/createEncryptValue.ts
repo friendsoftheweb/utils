@@ -1,3 +1,5 @@
+import { randomBytes, createCipheriv } from 'node:crypto';
+
 import type { Algorithm, EncryptedValue } from './types';
 
 import { KEY_LENGTHS } from './constants';
@@ -29,10 +31,6 @@ export function createEncryptValue(options: {
   }
 
   return async function encryptValue(value: string): Promise<EncryptedValue> {
-    // Require 'crypto' module inline to avoid loading it in environments where
-    // it's not needed/supported (e.g. browsers)
-    const { randomBytes, createCipheriv } = await import('node:crypto');
-
     const iv = randomBytes(16);
     const cipher = createCipheriv(algorithm, encryptionKey, iv);
     const content = Buffer.concat([cipher.update(value), cipher.final()]);

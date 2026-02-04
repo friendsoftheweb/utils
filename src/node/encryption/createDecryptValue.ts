@@ -1,3 +1,5 @@
+import { createDecipheriv } from 'node:crypto';
+
 import type { Algorithm, EncryptedValue } from './types';
 
 import { KEY_LENGTHS } from './constants';
@@ -29,10 +31,6 @@ export function createDecryptValue(options: {
   return async function decryptValue(
     encryptedValue: EncryptedValue,
   ): Promise<string> {
-    // Require 'crypto' module inline to avoid loading it in environments where
-    // it's not needed/supported (e.g. browsers)
-    const { createDecipheriv } = await import('node:crypto');
-
     const decipher = createDecipheriv(
       algorithm,
       encryptionKey,

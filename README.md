@@ -75,7 +75,7 @@ serializeCSVRow(['John', 30, true]); // "John,30,true\n"
 Creates a function that encrypts strings using AES-256-CTR encryption.
 
 ```typescript
-import { createEncryptValue } from '@friendsoftheweb/utils';
+import { createEncryptValue } from '@friendsoftheweb/utils/node';
 
 const encryptValue = createEncryptValue({
   algorithm: 'aes-256-ctr',
@@ -90,7 +90,7 @@ const encrypted = encryptValue('secret data'); // Returns: { iv: 'hex-string', c
 Creates a function that decrypts values encrypted by `createEncryptValue`.
 
 ```typescript
-import { createDecryptValue } from '@friendsoftheweb/utils';
+import { createDecryptValue } from '@friendsoftheweb/utils/node';
 
 const decryptValue = createDecryptValue({
   algorithm: 'aes-256-ctr',
@@ -107,7 +107,7 @@ const decrypted = decryptValue(encrypted); // Returns: 'secret data'
 Get a boolean value from an environment variable with optional default.
 
 ```typescript
-import { getEnvBoolean } from '@friendsoftheweb/utils';
+import { getEnvBoolean } from '@friendsoftheweb/utils/node';
 
 const isEnabled = getEnvBoolean('FEATURE_ENABLED'); // Throws if not set
 const isDebug = getEnvBoolean('DEBUG', false); // Returns false if not set
@@ -118,7 +118,7 @@ const isDebug = getEnvBoolean('DEBUG', false); // Returns false if not set
 Get a numeric value from an environment variable with optional default.
 
 ```typescript
-import { getEnvInteger } from '@friendsoftheweb/utils';
+import { getEnvInteger } from '@friendsoftheweb/utils/node';
 
 const port = getEnvInteger('PORT'); // Throws if not set
 const timeout = getEnvInteger('TIMEOUT', 30000); // Returns 30000 if not set
@@ -129,7 +129,7 @@ const timeout = getEnvInteger('TIMEOUT', 30000); // Returns 30000 if not set
 Get a string value from an environment variable with optional default.
 
 ```typescript
-import { getEnvString } from '@friendsoftheweb/utils';
+import { getEnvString } from '@friendsoftheweb/utils/node';
 
 const apiUrl = getEnvString('API_URL'); // Throws if not set
 const environment = getEnvString('NODE_ENV', 'development'); // Returns 'development' if not set
