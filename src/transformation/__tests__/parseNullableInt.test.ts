@@ -62,23 +62,23 @@ describe('parseNullableInt', () => {
   });
 
   describe('when value is not a valid number', () => {
-    it('returns NaN for non-numeric strings', () => {
+    it('returns null for non-numeric strings', () => {
       expect(parseNullableInt('abc')).toBeNull();
       expect(parseNullableInt('hello')).toBeNull();
       expect(parseNullableInt('xyz123')).toBeNull();
       expect(parseNullableInt('not a number')).toBeNull();
     });
 
-    it('returns NaN for strings that start with non-numeric characters', () => {
+    it('returns null for strings that start with non-numeric characters', () => {
       expect(parseNullableInt('$100')).toBeNull();
       expect(parseNullableInt('.42')).toBeNull();
     });
 
-    it('returns NaN for empty string', () => {
+    it('returns null for empty string', () => {
       expect(parseNullableInt('')).toBeNull();
     });
 
-    it('returns NaN for whitespace-only strings', () => {
+    it('returns null for whitespace-only strings', () => {
       expect(parseNullableInt(' ')).toBeNull();
       expect(parseNullableInt('\t')).toBeNull();
       expect(parseNullableInt('\n')).toBeNull();
@@ -87,13 +87,13 @@ describe('parseNullableInt', () => {
   });
 
   describe('when value is null', () => {
-    it('returns undefined', () => {
+    it('returns null', () => {
       expect(parseNullableInt(null)).toBeNull();
     });
   });
 
   describe('when value is undefined', () => {
-    it('returns undefined', () => {
+    it('returns null', () => {
       expect(parseNullableInt(undefined)).toBeNull();
     });
   });

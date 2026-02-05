@@ -3,11 +3,11 @@ import { presence } from '../presence';
 describe('presence', () => {
   describe('when value is null or undefined', () => {
     it('returns undefined for null', () => {
-      expect(presence(null)).toBeUndefined();
+      expect(presence(null)).toBeNull();
     });
 
     it('returns undefined for undefined', () => {
-      expect(presence(undefined)).toBeUndefined();
+      expect(presence(undefined)).toBeNull();
     });
   });
 
@@ -26,16 +26,16 @@ describe('presence', () => {
     });
 
     it('returns undefined for empty string', () => {
-      expect(presence('')).toBeUndefined();
+      expect(presence('')).toBeNull();
     });
 
     it('returns undefined for whitespace-only strings', () => {
-      expect(presence(' ')).toBeUndefined();
-      expect(presence('   ')).toBeUndefined();
-      expect(presence('\t')).toBeUndefined();
-      expect(presence('\n')).toBeUndefined();
-      expect(presence('\r')).toBeUndefined();
-      expect(presence('\t\n\r ')).toBeUndefined();
+      expect(presence(' ')).toBeNull();
+      expect(presence('   ')).toBeNull();
+      expect(presence('\t')).toBeNull();
+      expect(presence('\n')).toBeNull();
+      expect(presence('\r')).toBeNull();
+      expect(presence('\t\n\r ')).toBeNull();
     });
   });
 
@@ -60,7 +60,7 @@ describe('presence', () => {
     });
 
     it('returns undefined for NaN', () => {
-      expect(presence(NaN)).toBeUndefined();
+      expect(presence(NaN)).toBeNull();
     });
   });
 
@@ -88,7 +88,7 @@ describe('presence', () => {
     });
 
     it('returns undefined for empty arrays', () => {
-      expect(presence([])).toBeUndefined();
+      expect(presence([])).toBeNull();
     });
 
     it('handles nested arrays', () => {
@@ -120,7 +120,7 @@ describe('presence', () => {
     });
 
     it('returns undefined for empty objects', () => {
-      expect(presence({})).toBeUndefined();
+      expect(presence({})).toBeNull();
     });
 
     it('handles objects with various property types', () => {
@@ -198,7 +198,7 @@ describe('presence', () => {
       const emptyMap = new Map();
       const mapWithData = new Map([['key', 'value']]);
 
-      expect(presence(emptyMap)).toBeUndefined();
+      expect(presence(emptyMap)).toBeNull();
       expect(presence(mapWithData)).toBe(mapWithData);
     });
 
@@ -206,7 +206,7 @@ describe('presence', () => {
       const emptySet = new Set();
       const setWithData = new Set([1, 2, 3]);
 
-      expect(presence(emptySet)).toBeUndefined();
+      expect(presence(emptySet)).toBeNull();
       expect(presence(setWithData)).toBe(setWithData);
     });
 
@@ -217,14 +217,14 @@ describe('presence', () => {
         enumerable: false,
       });
 
-      expect(presence(obj)).toBeUndefined(); // No enumerable properties
+      expect(presence(obj)).toBeNull(); // No enumerable properties
     });
 
     it('handles objects with symbol properties', () => {
       const sym = Symbol('test');
       const obj = { [sym]: 'value' };
 
-      expect(presence(obj)).toBeUndefined(); // Symbol properties are not included in Object.keys()
+      expect(presence(obj)).toBeNull(); // Symbol properties are not included in Object.keys()
     });
   });
 

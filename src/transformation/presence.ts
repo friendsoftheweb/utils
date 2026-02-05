@@ -15,32 +15,32 @@ import { isPresentString } from '../validation/isPresentString';
  * @param value - The value to evaluate for presence
  * @returns The original `value` if it is present, `undefined` otherwise
  */
-export function presence<T>(value: T): NonNullable<T> | undefined {
+export function presence<T>(value: T): NonNullable<T> | null {
   if (value == null) {
-    return;
+    return null;
   }
 
   if (typeof value === 'string') {
-    return isPresentString(value) ? value : undefined;
+    return isPresentString(value) ? value : null;
   }
 
   if (typeof value === 'number') {
-    return isPresentNumber(value) ? value : undefined;
+    return isPresentNumber(value) ? value : null;
   }
 
   if (Array.isArray(value)) {
-    return value.length > 0 ? value : undefined;
+    return value.length > 0 ? value : null;
   }
 
   if (
     typeof value === 'object' &&
     Object.getPrototypeOf(value) === Object.prototype
   ) {
-    return Object.keys(value).length > 0 ? value : undefined;
+    return Object.keys(value).length > 0 ? value : null;
   }
 
   if (value instanceof Set || value instanceof Map) {
-    return value.size > 0 ? value : undefined;
+    return value.size > 0 ? value : null;
   }
 
   return value;

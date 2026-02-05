@@ -438,6 +438,42 @@ const toCamelCase = deepTransformKeys(camelCase);
 const transformedArray = apiData.map(toCamelCase);
 ```
 
+#### parseDelimitedString
+
+Parses a delimited string into an array of values, with optional transformation.
+Filters out empty or null values.
+
+```typescript
+import { parseDelimitedString } from '@friendsoftheweb/utils';
+
+// Basic comma-separated parsing
+parseDelimitedString('a, b, c'); // ['a', 'b', 'c']
+
+// Handles whitespace around delimiters
+parseDelimitedString('  one  ,  two  ,  three  '); // ['one', 'two', 'three']
+
+// Filters out empty values
+parseDelimitedString('a,,b,'); // ['a', 'b']
+
+// Custom delimiter
+parseDelimitedString('a|b|c', { delimiter: '|' }); // ['a', 'b', 'c']
+parseDelimitedString('a;b;c', { delimiter: ';' }); // ['a', 'b', 'c']
+
+// Custom transformation
+parseDelimitedString('1,2,3', {
+  transformValue: parseInt,
+}); // [1, 2, 3]
+
+// Transform with filtering (null values are excluded)
+parseDelimitedString('1,abc,3', {
+  transformValue: (value) => {
+    const number = parseInt(value);
+
+    return Number.isNaN(number) ? null : number;
+  },
+}); // [1, 3]
+```
+
 #### parseNullableDate
 
 Parses various date inputs into TZDate objects with timezone support, returning
@@ -476,8 +512,8 @@ parseNullableDate(null); // null
 
 #### parseNullableFloat
 
-Parses string values to floating-point numbers, returning undefined for invalid
-inputs.
+Parses string values to floating-point numbers, returning `null` for invalid or
+`null`/`undefined` inputs.
 
 ```typescript
 import { parseNullableFloat } from '@friendsoftheweb/utils';
@@ -488,17 +524,16 @@ parseNullableFloat('-123.45'); // -123.45
 parseNullableFloat('1.5e10'); // 15000000000
 parseNullableFloat('Infinity'); // Infinity
 
-// Invalid inputs return undefined
-parseNullableFloat('not-a-number'); // undefined
-parseNullableFloat(''); // undefined
-parseNullableFloat(null); // undefined
-parseNullableFloat(undefined); // undefined
+// Invalid inputs return null
+parseNullableFloat('not-a-number'); // null
+parseNullableFloat(null); // null
+parseNullableFloat(undefined); // null
 ```
 
 #### parseNullableInt
 
-Parses string values to integers, returning NaN for invalid strings or undefined
-for null/undefined inputs.
+Parses string values to integers, returning `null` for invalid or
+`null`/`undefined` inputs.
 
 ```typescript
 import { parseNullableInt } from '@friendsoftheweb/utils';
@@ -508,15 +543,15 @@ parseNullableInt('-123'); // -123
 parseNullableInt('3.14'); // 3 (truncated)
 parseNullableInt('42abc'); // 42 (parses leading digits)
 
-// Invalid inputs
-parseNullableInt('abc'); // NaN
-parseNullableInt(null); // undefined
-parseNullableInt(undefined); // undefined
+// Invalid inputs return null
+parseNullableInt('not-a-number'); // null
+parseNullableInt(null); // null
+parseNullableInt(undefined); // null
 ```
 
 #### presence
 
-Returns the input value when it is considered "present", otherwise undefined.
+Returns the input value when it is considered "present", otherwise `null`.
 
 ```typescript
 import { presence } from '@friendsoftheweb/utils';
@@ -528,14 +563,14 @@ presence(true); // true
 presence([1, 2, 3]); // [1, 2, 3]
 presence({ key: 'value' }); // { key: 'value' }
 
-// Non-present values return undefined
-presence(''); // undefined (empty string)
-presence('   '); // undefined (whitespace only)
-presence(NaN); // undefined (invalid number)
-presence([]); // undefined (empty array)
-presence({}); // undefined (empty object)
-presence(null); // undefined
-presence(undefined); // undefined
+// Non-present values return null
+presence(''); // null (empty string)
+presence('   '); // null (whitespace only)
+presence(NaN); // null (invalid number)
+presence([]); // null (empty array)
+presence({}); // null (empty object)
+presence(null); // null
+presence(undefined); // null
 ```
 
 ### Validation
