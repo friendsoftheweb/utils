@@ -1,24 +1,32 @@
-import { isPresentString } from '../validation';
+import { presence } from './presence';
 
 export interface ParseDelimitedStringOptions<T> {
   delimiter?: string;
-  transformValue?: T;
+  transformValue?: TransformValue<T>;
 }
 
-type TransformValue<T = string> = (value: string) => T;
-
-export function parseDelimitedString<T extends TransformValue>(
+type TransformValue<T> = (value: string) => T;
+/**
+ * Parses a delimited string into an array of values, with optional transformation.
+ * Filters out empty or null values.
+ *
+ * @example
+ * parseDelimitedString('a,b,c'); // returns ['a', 'b', 'c']
+ * parseDelimitedString(' a , , b '); // returns ['a', 'b']
+ * parseDelimitedString('1;2;3', { delimiter: ';', transformValue: parseInt }); // returns [1, 2, 3]
+ */
+export function parseDelimitedString<T>(
   input: string,
-  options: ParseDelimitedStringOptions<T>,
-): NonNullable<ReturnType<T>>[] {
+  options: ParseDelimitedStringOptions<T> = {},
+): NonNullable<T>[] {
   const { delimiter = ',', transformValue = defaultTransformValue } = options;
 
   const pattern = new RegExp(`\\s*${delimiter}\\s*`);
 
-  const result: NonNullable<ReturnType<T>>[] = [];
+  const result: NonNullable<T>[] = [];
 
   for (const value of input.split(pattern)) {
-    const transformedValue = transformValue(value) as ReturnType<T>;
+    const transformedValue = transformValue(value) as T;
 
     if (transformedValue != null) {
       result.push(transformedValue);
@@ -29,9 +37,5 @@ export function parseDelimitedString<T extends TransformValue>(
 }
 
 function defaultTransformValue(value: string) {
-  if (isPresentString(value)) {
-    return value;
-  } else {
-    return null;
-  }
+  return presence(value)?.trim();
 }

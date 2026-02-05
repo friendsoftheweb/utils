@@ -438,6 +438,42 @@ const toCamelCase = deepTransformKeys(camelCase);
 const transformedArray = apiData.map(toCamelCase);
 ```
 
+#### parseDelimitedString
+
+Parses a delimited string into an array of values, with optional transformation.
+Filters out empty or null values.
+
+```typescript
+import { parseDelimitedString } from '@friendsoftheweb/utils';
+
+// Basic comma-separated parsing
+parseDelimitedString('a, b, c'); // ['a', 'b', 'c']
+
+// Handles whitespace around delimiters
+parseDelimitedString('  one  ,  two  ,  three  '); // ['one', 'two', 'three']
+
+// Filters out empty values
+parseDelimitedString('a,,b,'); // ['a', 'b']
+
+// Custom delimiter
+parseDelimitedString('a|b|c', { delimiter: '|' }); // ['a', 'b', 'c']
+parseDelimitedString('a;b;c', { delimiter: ';' }); // ['a', 'b', 'c']
+
+// Custom transformation
+parseDelimitedString('1,2,3', {
+  transformValue: parseInt,
+}); // [1, 2, 3]
+
+// Transform with filtering (null values are excluded)
+parseDelimitedString('1,abc,3', {
+  transformValue: (value) => {
+    const number = parseInt(value);
+
+    return Number.isNaN(number) ? null : number;
+  },
+}); // [1, 3]
+```
+
 #### parseNullableDate
 
 Parses various date inputs into TZDate objects with timezone support, returning
