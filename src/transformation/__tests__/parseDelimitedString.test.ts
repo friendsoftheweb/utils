@@ -69,15 +69,6 @@ describe('parseDelimitedString', () => {
       ]);
     });
 
-    it('parses pipe-separated values with escaped delimiter', () => {
-      // Pipe is a regex special character, so it needs escaping
-      expect(parseDelimitedString('a|b|c', { delimiter: '\\|' })).toEqual([
-        'a',
-        'b',
-        'c',
-      ]);
-    });
-
     it('preserves commas when using semicolon delimiter', () => {
       expect(parseDelimitedString('a,b;c,d', { delimiter: ';' })).toEqual([
         'a,b',
@@ -184,8 +175,8 @@ describe('parseDelimitedString', () => {
       ]);
     });
 
-    it('handles regex special characters in delimiter when escaped', () => {
-      expect(parseDelimitedString('a.b.c', { delimiter: '\\.' })).toEqual([
+    it('regex special characters in delimiter are escaped', () => {
+      expect(parseDelimitedString('a.b.c', { delimiter: '.' })).toEqual([
         'a',
         'b',
         'c',

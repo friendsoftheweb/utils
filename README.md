@@ -443,9 +443,6 @@ const transformedArray = apiData.map(toCamelCase);
 Parses a delimited string into an array of values, with optional transformation.
 Filters out empty or null values.
 
-**NOTE:** Any special regex characters used as delimiters must be escaped (e.g.
-`'\\|'` instead of `'|'`).
-
 ```typescript
 import { parseDelimitedString } from '@friendsoftheweb/utils';
 

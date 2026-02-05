@@ -6,12 +6,10 @@ export interface ParseDelimitedStringOptions<T> {
 }
 
 type TransformValue<T> = (value: string) => T;
+
 /**
  * Parses a delimited string into an array of values, with optional transformation.
  * Filters out empty or null values.
- *
- * **NOTE:** Any special regex characters used as delimiters must be escaped
- * (e.g. `'\\|'` instead of `'|'`).
  *
  * @param input - The delimited string to parse
  *
@@ -32,7 +30,7 @@ export function parseDelimitedString<T>(
 ): NonNullable<T>[] {
   const { delimiter = ',', transformValue = defaultTransformValue } = options;
 
-  const pattern = new RegExp(`\\s*${delimiter}\\s*`);
+  const pattern = new RegExp(`\\s*${escapeRegExp(delimiter)}\\s*`);
 
   const result: NonNullable<T>[] = [];
 
@@ -49,4 +47,8 @@ export function parseDelimitedString<T>(
 
 function defaultTransformValue(value: string) {
   return presence(value)?.trim();
+}
+
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
