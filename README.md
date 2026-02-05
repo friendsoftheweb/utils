@@ -443,6 +443,9 @@ const transformedArray = apiData.map(toCamelCase);
 Parses a delimited string into an array of values, with optional transformation.
 Filters out empty or null values.
 
+**NOTE:** Any special regex characters used as delimiters must be escaped (e.g.
+`'\\|'` instead of `'|'`).
+
 ```typescript
 import { parseDelimitedString } from '@friendsoftheweb/utils';
 
@@ -552,7 +555,7 @@ parseNullableInt(undefined); // undefined
 
 #### presence
 
-Returns the input value when it is considered "present", otherwise undefined.
+Returns the input value when it is considered "present", otherwise `null`.
 
 ```typescript
 import { presence } from '@friendsoftheweb/utils';
@@ -564,14 +567,14 @@ presence(true); // true
 presence([1, 2, 3]); // [1, 2, 3]
 presence({ key: 'value' }); // { key: 'value' }
 
-// Non-present values return undefined
-presence(''); // undefined (empty string)
-presence('   '); // undefined (whitespace only)
-presence(NaN); // undefined (invalid number)
-presence([]); // undefined (empty array)
-presence({}); // undefined (empty object)
-presence(null); // undefined
-presence(undefined); // undefined
+// Non-present values return null
+presence(''); // null (empty string)
+presence('   '); // null (whitespace only)
+presence(NaN); // null (invalid number)
+presence([]); // null (empty array)
+presence({}); // null (empty object)
+presence(null); // null
+presence(undefined); // null
 ```
 
 ### Validation

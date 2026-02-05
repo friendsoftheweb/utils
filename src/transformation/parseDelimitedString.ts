@@ -10,6 +10,17 @@ type TransformValue<T> = (value: string) => T;
  * Parses a delimited string into an array of values, with optional transformation.
  * Filters out empty or null values.
  *
+ * **NOTE:** Any special regex characters used as delimiters must be escaped
+ * (e.g. `'\\|'` instead of `'|'`).
+ *
+ * @param input - The delimited string to parse
+ *
+ * @param options.delimiter - The delimiter character (default is comma `,`).
+ * Any whitespace around the delimiter will be ignored.
+ *
+ * @param options.transformValue - A function to transform each parsed value.
+ * By default, it trims whitespace and filters out empty values.
+ *
  * @example
  * parseDelimitedString('a,b,c'); // returns ['a', 'b', 'c']
  * parseDelimitedString(' a , , b '); // returns ['a', 'b']
