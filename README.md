@@ -515,8 +515,8 @@ parseNullableDate(null); // null
 
 #### parseNullableFloat
 
-Parses string values to floating-point numbers, returning undefined for invalid
-inputs.
+Parses string values to floating-point numbers, returning `null` for invalid or
+`null`/`undefined` inputs.
 
 ```typescript
 import { parseNullableFloat } from '@friendsoftheweb/utils';
@@ -527,17 +527,16 @@ parseNullableFloat('-123.45'); // -123.45
 parseNullableFloat('1.5e10'); // 15000000000
 parseNullableFloat('Infinity'); // Infinity
 
-// Invalid inputs return undefined
-parseNullableFloat('not-a-number'); // undefined
-parseNullableFloat(''); // undefined
-parseNullableFloat(null); // undefined
-parseNullableFloat(undefined); // undefined
+// Invalid inputs return null
+parseNullableFloat('not-a-number'); // null
+parseNullableFloat(null); // null
+parseNullableFloat(undefined); // null
 ```
 
 #### parseNullableInt
 
-Parses string values to integers, returning NaN for invalid strings or undefined
-for null/undefined inputs.
+Parses string values to integers, returning `null` for invalid or
+`null`/`undefined` inputs.
 
 ```typescript
 import { parseNullableInt } from '@friendsoftheweb/utils';
@@ -547,10 +546,10 @@ parseNullableInt('-123'); // -123
 parseNullableInt('3.14'); // 3 (truncated)
 parseNullableInt('42abc'); // 42 (parses leading digits)
 
-// Invalid inputs
-parseNullableInt('abc'); // NaN
-parseNullableInt(null); // undefined
-parseNullableInt(undefined); // undefined
+// Invalid inputs return null
+parseNullableInt('not-a-number'); // null
+parseNullableInt(null); // null
+parseNullableInt(undefined); // null
 ```
 
 #### presence
