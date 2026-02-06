@@ -6,11 +6,9 @@
  * const semaphore = new Semaphore(5);
  *
  * async function expensiveTask() {
- *   let release;
+ *   const release = await semaphore.acquire();
  *
  *   try {
- *     release = await semaphore.acquire();
- *
  *     // Do expensive work
  *   } finally {
  *     release();
