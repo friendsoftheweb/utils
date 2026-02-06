@@ -20,6 +20,22 @@ import { delay } from '@friendsoftheweb/utils';
 await delay(1000); // Wait for 1 second
 ```
 
+#### limitConcurrency
+
+Wraps an async function to limit the number of concurrent executions. Useful for
+rate-limiting API calls, controlling resource usage, or preventing overload when
+processing many items in parallel.
+
+```typescript
+import { limitConcurrency } from '@friendsoftheweb/utils';
+
+// Limit to 5 concurrent fetch requests
+const limitedFetch = limitConcurrency(fetch, 5);
+
+// Only 5 requests will execute at a time; others wait for a slot
+const results = await Promise.all(urls.map((url) => limitedFetch(url)));
+```
+
 ### CSV
 
 #### createCSVStream

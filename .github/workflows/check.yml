@@ -28,9 +28,6 @@ jobs:
       - name: Check Types
         run: yarn types:check
 
-      - name: Test
-        run: yarn test
-
       - name: Lint
         run: yarn lint
 
@@ -39,3 +36,56 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Validate build outputs
+        run: |
+          set -euo pipefail
+
+          FILES=(
+            "dist/index.mjs"
+            "dist/node.mjs"
+
+            "dist/index.mjs.map"
+            "dist/node.mjs.map"
+
+            "dist/index.d.mts"
+            "dist/node.d.mts"
+
+            "dist/index.cjs"
+            "dist/node.cjs"
+
+            "dist/index.cjs.map"
+            "dist/node.cjs.map"
+
+            "dist/index.d.cts"
+            "dist/node.d.cts"
+          )
+
+          for file in "${FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "Expected build output missing: $file" >&2
+              exit 1
+            fi
+          done
+
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: [22.x, 24.x, 25.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Test
+        run: yarn test
