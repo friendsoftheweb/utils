@@ -38,8 +38,8 @@
   "scripts": {
     "test": "jest",
     "types:check": "tsc --noEmit",
+    "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "format:fix": "prettier --write .",
     "lint": "eslint .",
     "build": "tsdown",
     "prepack": "tsdown",
