@@ -1,5 +1,6 @@
-import { TZDate } from '@date-fns/tz';
-import { format } from 'date-fns';
+import type { TZDate } from '@date-fns/tz';
+
+import { format } from 'date-fns/format';
 
 import type { TimeZone } from '../types';
 
