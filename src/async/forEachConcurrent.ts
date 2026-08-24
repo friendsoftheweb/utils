@@ -17,13 +17,21 @@ export async function forEachConcurrent<T>(
 
   const semaphore = new Semaphore(maxConcurrency);
   const iterator = getElements();
+  const inFlight = new Set<Promise<void>>();
 
   let done = false;
+  let hasError = false;
+  let firstError: unknown;
 
   while (!done) {
     const release = await semaphore.acquire();
 
-    (async () => {
+    if (done) {
+      release();
+      break;
+    }
+
+    const task = (async () => {
       try {
         const result = await iterator.next();
 
@@ -32,9 +40,28 @@ export async function forEachConcurrent<T>(
         } else {
           await callback(result.value);
         }
+      } catch (error) {
+        done = true;
+
+        if (!hasError) {
+          hasError = true;
+          firstError = error;
+        }
       } finally {
         release();
       }
     })();
+
+    inFlight.add(task);
+
+    task.finally(() => {
+      inFlight.delete(task);
+    });
+  }
+
+  await Promise.allSettled(inFlight);
+
+  if (hasError) {
+    throw firstError;
   }
 }
