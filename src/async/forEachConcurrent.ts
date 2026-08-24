@@ -1,3 +1,4 @@
+import { assert } from '../assert';
 import { Semaphore } from './Semaphore';
 
 /**
@@ -15,6 +16,8 @@ export async function forEachConcurrent<T>(
 ): Promise<void> {
   const { maxConcurrency = 2 } = options;
 
+  assert(maxConcurrency >= 1, 'maxConcurrency must be at least 1');
+
   const semaphore = new Semaphore(maxConcurrency);
   const iterator = getElements();
   const inFlight = new Set<Promise<void>>();
@@ -28,6 +31,7 @@ export async function forEachConcurrent<T>(
 
     if (done) {
       release();
+
       break;
     }
 
