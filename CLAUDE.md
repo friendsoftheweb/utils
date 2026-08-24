@@ -11,7 +11,7 @@ npx jest path/to/file.test.ts --no-coverage  # Run a single test file
 yarn build                 # Build with tsdown (outputs ESM + CJS + types to dist/)
 yarn lint                  # ESLint
 yarn types:check           # TypeScript type checking (tsc --noEmit)
-yarn format:fix            # Prettier
+yarn format                # Prettier
 ```
 
 ## Architecture
