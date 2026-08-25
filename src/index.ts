@@ -1,3 +1,4 @@
+export * from './assert';
 export * from './async';
 export * from './csv';
 export * from './formatting';
