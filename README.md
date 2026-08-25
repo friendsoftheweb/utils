@@ -20,6 +20,35 @@ import { delay } from '@friendsoftheweb/utils';
 await delay(1000); // Wait for 1 second
 ```
 
+#### forEachConcurrent
+
+Iterates over an async generator and invokes a callback for each element,
+processing up to `maxConcurrency` elements concurrently.
+
+```typescript
+import { forEachConcurrent } from '@friendsoftheweb/utils';
+
+async function* getUsers() {
+  yield { id: 1, name: 'Alice' };
+  yield { id: 2, name: 'Bob' };
+  yield { id: 3, name: 'Carol' };
+}
+
+// Process up to 2 users at a time (default)
+await forEachConcurrent(getUsers, async (user) => {
+  await sendWelcomeEmail(user);
+});
+
+// Custom concurrency limit
+await forEachConcurrent(
+  getUsers,
+  async (user) => {
+    await sendWelcomeEmail(user);
+  },
+  { maxConcurrency: 5 },
+);
+```
+
 #### limitConcurrency
 
 Wraps an async function to limit the number of concurrent executions. Useful for

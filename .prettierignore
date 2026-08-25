@@ -1,4 +1,5 @@
 .prettierrc
+CLAUDE.md
 /.yarn
 /coverage
 /dist
